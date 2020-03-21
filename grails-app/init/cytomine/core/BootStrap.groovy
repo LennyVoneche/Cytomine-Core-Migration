@@ -43,14 +43,14 @@ class BootStrap {
 
 //    def grailsApplication
 
-//    def sequenceService
+    def sequenceService
     def marshallersService
-//    def indexService
-//    def triggerService
+    def indexService
+    def triggerService
 //    def grantService
-//    def termService
-//    def tableService
-//    def secUserService
+    def termService
+    def tableService
+    def secUserService
 //    def noSQLCollectionService
 //
 //    def retrieveErrorsService
@@ -126,27 +126,27 @@ class BootStrap {
 //            new Sql(dataSource).executeUpdate("ALTER TABLE sec_user ADD COLUMN language VARCHAR;")
 //        }
 
-//        //Initialize marshallers and services
-//        log.info "init marshaller..."
+        //Initialize marshallers and services
+        log.info "init marshaller..."
           marshallersService.initMarshallers()
-//
+
 //        log.info "init sequences..."
 //        sequenceService.initSequences()
-//
-//        log.info "init trigger..."
-//        triggerService.initTrigger()
-//
-//        log.info "init index..."
-//        indexService.initIndex()
-//
+
+        log.info "init trigger..."
+        triggerService.initTrigger()
+
+        log.info "init index..."
+        indexService.initIndex()
+
 //        log.info "init grant..."
 //        grantService.initGrant()
-//
-//        log.info "init table..."
-//        tableService.initTable()
-//
-//        log.info "init term service..."
-//        termService.initialize() //term service needs userservice and userservice needs termservice => init manualy at bootstrap
+
+        log.info "init table..."
+        tableService.initTable()
+
+        log.info "init term service..."
+        termService.initialize() //term service needs userservice and userservice needs termservice => init manualy at bootstrap
 //
 //        log.info "init retrieve errors hack..."
 //        retrieveErrorsService.initMethods()

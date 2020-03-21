@@ -1,4 +1,3 @@
-package spring
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
 *
@@ -14,7 +13,8 @@ package spring
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+package spring
+//import grails.converters.JSON
 
 /******************************************************************************
  * EXTERNAL configuration
@@ -36,6 +36,7 @@ println "Found configuration file ? ${configFile.exists()}"
 /******************************************************************************
  * Grails config
  ******************************************************************************/
+//JSON.use('default')
 grails.project.groupId = appName // alter the default package name and Maven publishing destination
 grails.databinding.convertEmptyStringsToNull = false
 grails.views.default.codec = "none" // none, html, base64
@@ -90,28 +91,104 @@ coverage {
     xml = true
 }
 
+log4j = {
+    println "Log4j consoleLevel"
+
+    appenders {
+        console name: 'stdout', layout: pattern(conversionPattern: '%d{dd-MM-yyyy HH:mm:ss,SSS} %5p %c{1} - %m%n')
+        rollingFile  name:'infoLog', file:'/tmp/cytomine-info.log', threshold: org.apache.log4j.Level.INFO, maxFileSize:1024
+        rollingFile  name:'warnLog', file:'/tmp/cytomine-warn.log', threshold: org.apache.log4j.Level.WARN, maxFileSize:1024
+        rollingFile  name:'errorLog', file:'/tmp/cytomine-error.log', threshold: org.apache.log4j.Level.ERROR, maxFileSize:1024
+        rollingFile  name:'custom', file:'/tmp/cytomine-custom.log', maxFileSize:1024
+    }
+
+    error   'org.codehaus.groovy.grails.domain',
+            'org.codehaus.groovy.grails.web.servlet',  //  controllers
+            'org.codehaus.groovy.grails.web.pages', //  GSP
+            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails.web.mapping', // URL mapping
+            'org.codehaus.groovy.grails.commons', // core / classloading
+            'org.codehaus.groovy.grails.plugins', // plugins
+            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+            'org.springframework',
+            'net.sf.ehcache.hibernate',
+            'org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog',
+            'org.springframework.security.web.context',
+            'org.hibernate.engine','net.sf.hibernate.impl.SessionImpl',
+            'com.granicus.grails.plugins.cookiesession',
+            'grails.plugin.springsecurity'
+
+    environments {
+        production {
+            root {
+                info 'errorLog','warnLog', 'infoLog', 'stdout'
+                additivity = true
+            }
+        }
+        development {
+            root {
+                info 'errorLog','warnLog', 'infoLog', 'stdout'
+                additivity = true
+            }
+        }
+        cluster {
+            root {
+                info 'appLog',"logfile", 'stdout'
+                additivity = true
+            }
+        }
+        test {
+            root {
+                info 'appLog',"logfile", 'stdout'
+                additivity = true
+            }
+        }
+        perf {
+            root {
+                info 'appLog',"logfile", 'stdout'
+                additivity = true
+            }
+        }
+    }
 
 // UNCOMMENT THESE 2 LINES TO SEE SQL REQUEST AND THEIR PARAMETERS VALUES
 //    debug 'org.hibernate.SQL'
 //    trace 'org.hibernate.type'
-//}
+}
 
 /******************************************************************************
  * SPRING SECURITY CORE config
  ******************************************************************************/
 grails.plugin.springsecurity.useHttpSessionEventPublisher = true
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'cytomine.core.security.SecUser'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'be.cytomine.security.SecUser'
 grails.plugin.springsecurity.userLookup.passwordPropertyName = 'password'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'cytomine.core.security.SecUserSecRole'
-grails.plugin.springsecurity.authority.className = 'cytomine.core.security.SecRole'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'be.cytomine.security.SecUserSecRole'
+grails.plugin.springsecurity.authority.className = 'be.cytomine.security.SecRole'
 grails.plugin.springsecurity.authority.nameField = 'authority'
-grails.plugin.springsecurity.projectClass = 'cytomine.core.project.Project'
+grails.plugin.springsecurity.projectClass = 'be.cytomine.project.Project'
 grails.plugin.springsecurity.rememberMe.parameter = 'remember_me'
 grails.plugin.springsecurity.password.algorithm = 'SHA-256'
 grails.plugin.springsecurity.password.hash.iterations = 1
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 grails.plugin.springsecurity.useSwitchUserFilter = true
+//grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
+//grails.plugin.springsecurity.interceptUrlMap = [
+//        '/admin/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/admincyto/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/monitoring/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/j_spring_security_switch_user': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/securityInfo/**': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/api/**':      ['IS_AUTHENTICATED_REMEMBERED'],
+//        '/lib/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/css/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/images/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/*':           ['IS_AUTHENTICATED_REMEMBERED'], //if cas authentication, active this
+//        '/login/**':    ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/logout/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/status/**':   ['IS_AUTHENTICATED_ANONYMOUSLY']
+//]
 grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 
 //grails.plugin.springsecurity.interceptUrlMap = [
@@ -145,7 +222,6 @@ grails.plugin.springsecurity.interceptUrlMap = [
         [pattern: '/logout/**', 					access: ['permitAll']],
         [pattern: '/status/**', 					access: ['permitAll']]
 ]
-
 /******************************************************************************
  * CAS config
  ******************************************************************************/
@@ -216,7 +292,7 @@ grails.doc.copyright="University of liège"
 grails.doc.footer="www.cytomine.org"
 grails.plugins.restapidoc.docVersion = "0.1"
 grails.plugins.restapidoc.basePath = "http://demo.cytomine.coop"
-grails.plugins.restapidoc.customClassName = "cytomine.core.api.doc.CustomResponseDoc"
+grails.plugins.restapidoc.customClassName = "be.cytomine.api.doc.CustomResponseDoc"
 grails.plugins.restapidoc.controllerPrefix = "Rest"
 grails.plugins.restapidoc.grailsDomainDefaultType = "long"
 
@@ -431,9 +507,7 @@ grails.instanceHostPhoneNumber = null
 grails.defaultLanguage = "ENGLISH"
 
 grails.useHTTPInternally = true
-
-
-//Data Source
+//----------------------------------------------------------------------------------------
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
 *
@@ -450,165 +524,162 @@ grails.useHTTPInternally = true
 * limitations under the License.
 */
 
-//dataSource {
-//    pooled = true
-//
-//    /**
-//     * (String) The fully qualified Java class name of the JDBC driver to be used.
-//     * The driver has to be accessible from the same classloader as tomcat-jdbc.jar
-//     */
-//    driverClassName = "org.postgresql.Driver"
-//
-//    /**
-//     * (String) The connection username to be passed to our JDBC driver to establish a connection.
-//     */
-//    username = "docker"
-//    password = "docker"
-//
-//    dialect = org.hibernate.spatial.dialect.postgis.PostgisDialect
-//
-//    properties {
-//        /**
-//         * (boolean) Register the pool with JMX or not. The default value is true.
-//         */
-//        jmxEnabled = true
-//
-//        /**
-//         * (int)The initial number of connections that are created when the pool is started. Default value is 10
-//         */
-//        initialSize = 50
-//
-//        /**
-//         * (int) The minimum number of established connections that should be kept in the pool at all times.
-//         * The connection pool can shrink below this number if validation queries fail.
-//         * Default value is derived from initialSize:10
-//         */
-//        minIdle = 50
-//
-//        /**
-//         * (int) The maximum number of active connections that can be allocated from this pool at the same time.
-//         * The default value is 100
-//         */
-//        maxActive = 500
-//
-//        /**
-//         * (int) The maximum number of connections that should be kept in the pool at all times.
-//         * Default value is maxActive:100 Idle connections are checked periodically (if enabled)
-//         */
-//        maxIdle = 500
-//
-//        /**
-//         * (int) The maximum number of milliseconds that the pool will wait (when there are no available connections)
-//         * for a connection to be returned before throwing an exception. Default value is 30000 (30 seconds)
-//         */
-//        maxWait = 30000
-//
-//        /**
-//         * (long) Time in milliseconds to keep this connection. This attribute works both when returning connection
-//         * and when borrowing connection.
-//         * When a connection is borrowed from the pool, the pool will check to see if the now - time-when-connected > maxAge
-//         * has been reached , and if so, it reconnects before borrow it.
-//         * When a connection is returned to the pool, the pool will check to see if the now - time-when-connected > maxAge
-//         * has been reached, and if so, it closes the connection rather than returning it to the pool.
-//         * The default value is 0, which implies that connections will be left open and no age check will be done upon
-//         * borrowing from the pool and returning the connection to the pool.
-//         */
-//        maxAge = 5 * 60000
-//
-//        /**
-//         * (int) The number of milliseconds to sleep between runs of the idle connection validation/cleaner thread.
-//         * This value should not be set under 1 second.
-//         * It dictates how often we check for idle, abandoned connections, and how often we validate idle connections.
-//         * The default value is 5000 (5 seconds).
-//         */
-//        timeBetweenEvictionRunsMillis = 5000
-//
-//        /**
-//         * (int) The minimum amount of time an object may sit idle in the pool before it is eligible for eviction.
-//         * The default value is 60000 (60 seconds).
-//         */
-//        minEvictableIdleTimeMillis = 60000
-//    }
-//}
-//hibernate {
-////  cache.use_second_level_cache = true
-////  cache.use_query_cache = true
-////    cache.use_second_level_cache = false
-////    cache.use_query_cache = false   // Changed to false to be enable the distributed cache
-////    cache.provider_class = 'net.sf.ehcache.hibernate.SingletonEhCacheProvider'
-//
-//    //CLUSTER
-////    cache.provider_class = 'net.sf.ehcache.hibernate.EhCacheProvider'
-////    cache.provider_class = 'net.sf.ehcache.hibernate.SingletonEhCacheProvider'
-//    // hibernate.cache.region.factory_class = 'net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory'
-//    cache.use_second_level_cache = true
-//    cache.use_query_cache = false
-//    //cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
-//    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
-//    singleSession = true // configure OSIV singleSession mode
-//}
-//// environment specific settings
-//environments {
-//    scratch {
-//        dataSource {
-//            dbCreate = "update"
-//            url = "jdbc:postgresql://localhost:5432/cytomineempty"
-//            password = "postgres"
-//        }
-//    }
-//    development {
-//        dataSource {
-//            dbCreate = "update"
-//            url = "jdbc:postgresql://localhost:5432/docker"
-//            username = "docker"
-//            password = "docker"
-//        }
-//    }
-//    test {
-//        dataSource {
-//            //loggingSql = true
-//            dbCreate = "create"
-//            url = "jdbc:postgresql://localhost:5432/docker"
-//            username = "docker"
-//            password = "docker"
-//        }
-//    }
-//    production {
-//        dataSource {
-//            dbCreate = "update"
-//            url = "jdbc:postgresql://postgresql:5432/docker"
-//            username='docker'
-//            password='docker'
-//        }
-//    }
-//    perf {
-//        dataSource {
-//            //loggingSql = true
-//            dbCreate = "update"
-//            url = "jdbc:postgresql://localhost:5433/cytomineperf"
-//            password = "postgres"
-//        }
-//    }
-//    testrun {
-//        dataSource {
-//            //loggingSql = true
-//            dbCreate = "create"
-//            url = "jdbc:postgresql://localhost:5432/cytominetestrun"
-//            password = "postgres"
-//        }
-//    }
-//}
-//grails {
-//    mongo {
-//        host = "localhost"
-//        port = 27017
-//        databaseName = "cytomine"
-//        options {
-//            connectionsPerHost = 10 // The maximum number of connections allowed per host
-//            threadsAllowedToBlockForConnectionMultiplier = 5 // so it*connectionsPerHost threads can wait for a connection
-//        }
-//    }
-//}
+dataSource {
+    pooled = true
 
+    /**
+     * (String) The fully qualified Java class name of the JDBC driver to be used.
+     * The driver has to be accessible from the same classloader as tomcat-jdbc.jar
+     */
+    driverClassName = "org.postgresql.Driver"
 
+    /**
+     * (String) The connection username to be passed to our JDBC driver to establish a connection.
+     */
+    username = "docker"
+    password = "docker"
 
+    dialect = org.hibernate.spatial.dialect.postgis.PostgisDialect
+
+    properties {
+        /**
+         * (boolean) Register the pool with JMX or not. The default value is true.
+         */
+        jmxEnabled = true
+
+        /**
+         * (int)The initial number of connections that are created when the pool is started. Default value is 10
+         */
+        initialSize = 50
+
+        /**
+         * (int) The minimum number of established connections that should be kept in the pool at all times.
+         * The connection pool can shrink below this number if validation queries fail.
+         * Default value is derived from initialSize:10
+         */
+        minIdle = 50
+
+        /**
+         * (int) The maximum number of active connections that can be allocated from this pool at the same time.
+         * The default value is 100
+         */
+        maxActive = 500
+
+        /**
+         * (int) The maximum number of connections that should be kept in the pool at all times.
+         * Default value is maxActive:100 Idle connections are checked periodically (if enabled)
+         */
+        maxIdle = 500
+
+        /**
+         * (int) The maximum number of milliseconds that the pool will wait (when there are no available connections)
+         * for a connection to be returned before throwing an exception. Default value is 30000 (30 seconds)
+         */
+        maxWait = 30000
+
+        /**
+         * (long) Time in milliseconds to keep this connection. This attribute works both when returning connection
+         * and when borrowing connection.
+         * When a connection is borrowed from the pool, the pool will check to see if the now - time-when-connected > maxAge
+         * has been reached , and if so, it reconnects before borrow it.
+         * When a connection is returned to the pool, the pool will check to see if the now - time-when-connected > maxAge
+         * has been reached, and if so, it closes the connection rather than returning it to the pool.
+         * The default value is 0, which implies that connections will be left open and no age check will be done upon
+         * borrowing from the pool and returning the connection to the pool.
+         */
+        maxAge = 5 * 60000
+
+        /**
+         * (int) The number of milliseconds to sleep between runs of the idle connection validation/cleaner thread.
+         * This value should not be set under 1 second.
+         * It dictates how often we check for idle, abandoned connections, and how often we validate idle connections.
+         * The default value is 5000 (5 seconds).
+         */
+        timeBetweenEvictionRunsMillis = 5000
+
+        /**
+         * (int) The minimum amount of time an object may sit idle in the pool before it is eligible for eviction.
+         * The default value is 60000 (60 seconds).
+         */
+        minEvictableIdleTimeMillis = 60000
+    }
+}
+hibernate {
+//  cache.use_second_level_cache = true
+//  cache.use_query_cache = true
+//    cache.use_second_level_cache = false
+//    cache.use_query_cache = false   // Changed to false to be enable the distributed cache
+//    cache.provider_class = 'net.sf.ehcache.hibernate.SingletonEhCacheProvider'
+
+    //CLUSTER
+//    cache.provider_class = 'net.sf.ehcache.hibernate.EhCacheProvider'
+//    cache.provider_class = 'net.sf.ehcache.hibernate.SingletonEhCacheProvider'
+    // hibernate.cache.region.factory_class = 'net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory'
+    cache.use_second_level_cache = true
+    cache.use_query_cache = false
+    //cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
+    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
+    singleSession = true // configure OSIV singleSession mode
+}
+// environment specific settings
+environments {
+    scratch {
+        dataSource {
+            dbCreate = "update"
+            url = "jdbc:postgresql://localhost:5432/cytomineempty"
+            password = "postgres"
+        }
+    }
+    development {
+        dataSource {
+            dbCreate = "update"
+            url = "jdbc:postgresql://localhost:5432/docker"
+            username = "docker"
+            password = "docker"
+        }
+    }
+    test {
+        dataSource {
+            //loggingSql = true
+            dbCreate = "create"
+            url = "jdbc:postgresql://localhost:5432/docker"
+            username = "docker"
+            password = "docker"
+        }
+    }
+    production {
+        dataSource {
+            dbCreate = "update"
+            url = "jdbc:postgresql://postgresql:5432/docker"
+            username='docker'
+            password='docker'
+        }
+    }
+    perf {
+        dataSource {
+            //loggingSql = true
+            dbCreate = "update"
+            url = "jdbc:postgresql://localhost:5433/cytomineperf"
+            password = "postgres"
+        }
+    }
+    testrun {
+        dataSource {
+            //loggingSql = true
+            dbCreate = "create"
+            url = "jdbc:postgresql://localhost:5432/cytominetestrun"
+            password = "postgres"
+        }
+    }
+}
+grails {
+    mongo {
+        host = "localhost"
+        port = 27017
+        databaseName = "cytomine"
+        options {
+            connectionsPerHost = 10 // The maximum number of connections allowed per host
+            threadsAllowedToBlockForConnectionMultiplier = 5 // so it*connectionsPerHost threads can wait for a connection
+        }
+    }
+}

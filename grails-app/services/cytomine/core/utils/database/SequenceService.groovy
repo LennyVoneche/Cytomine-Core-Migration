@@ -1,5 +1,7 @@
 package cytomine.core.utils.database
 
+import org.postgresql.util.PSQLException
+
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
 *
@@ -37,8 +39,8 @@ class SequenceService {
             def dropSequenceQuery = ""//"DROP SEQUENCE IF EXISTS "+SEQ_NAME+";"
             def createSequenceQuery = "CREATE SEQUENCE " + SEQ_NAME + " START 1;"
             statement.execute(dropSequenceQuery + createSequenceQuery)
-        } catch (org.postgresql.util.PSQLException e) {
-            log.debug e
+        } catch (PSQLException e) {
+            log.debug e.toString()
         }
 
     }

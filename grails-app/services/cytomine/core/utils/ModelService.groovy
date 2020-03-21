@@ -325,7 +325,7 @@ abstract class ModelService {
 
 
     def sessionFactory
-    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
+//    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
     /**
      * Clean GORM cache
      */

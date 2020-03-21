@@ -54,11 +54,11 @@ class SecUserService extends ModelService {
 
     static transactional = true
 
-    def springSecurityService
-    def transactionService
+//    def springSecurityService
+//    def transactionService
     def cytomineService
     def commandService
-    def modelService
+//    def modelService
     def userGroupService
     def dataSource
     def permissionService
