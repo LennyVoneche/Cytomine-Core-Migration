@@ -20,6 +20,7 @@ import cytomine.core.command.*
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.grails.web.json.JSONObject
 
@@ -120,7 +121,7 @@ class StorageService extends ModelService {
         log.info ("create storage for $user.username")
         SpringSecurityUtils.doWithAuth(user.username, {
             Command c = new AddCommand(user: user)
-            executeCommand(c,null, new JSONObject([name: "$user.username storage", user: user.id]))
+            executeCommand(c,null, new JSONObject([name: "$user.username storage", user: user.id]) as JSON)
         })
     }
 }

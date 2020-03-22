@@ -1,3 +1,4 @@
+
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
 *
@@ -13,7 +14,6 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package spring
 //import grails.converters.JSON
 
 /******************************************************************************
@@ -36,7 +36,6 @@ println "Found configuration file ? ${configFile.exists()}"
 /******************************************************************************
  * Grails config
  ******************************************************************************/
-//JSON.use('default')
 grails.project.groupId = appName // alter the default package name and Maven publishing destination
 grails.databinding.convertEmptyStringsToNull = false
 grails.views.default.codec = "none" // none, html, base64

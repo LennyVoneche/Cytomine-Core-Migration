@@ -21,6 +21,8 @@ import cytomine.core.project.Project
 import cytomine.core.security.SecUser
 import org.grails.web.json.JSONElement
 
+import javax.persistence.Transient
+
 /**
  * @author Cytomine Team
  * The Command class define a command which package on operation on a domain
@@ -39,7 +41,7 @@ class Command extends CytomineDomain {
     /**
      * JSON object with data
      */
-//    JSONElement json
+    JSONElement json
 
     boolean delete = false //with soft delete, editcommand has flag delete
 

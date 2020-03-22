@@ -37,16 +37,13 @@ class MarshallersService {
      * Init marshaller for all cytomine domain
      */
     def initMarshallers() {
-        println getClass().toString() + '001'
 
         JSON.registerObjectMarshaller(Date) {
             return it?.time?.toString()
         }
-        println getClass().toString() + '002'
         grailsApplication.getDomainClasses().each { domain ->
             domain.metaClass.methods.each { method ->
                 if (method.name.equals("getDataFromDomain")) {
-                    println getClass().toString() + '003'
                     def domainFullName = domain.packageName + "." + domain.name
                     log.debug "Init Marshaller for domain class : " + domainFullName
                     def domainInstance = grailsApplication.getDomainClass(domainFullName).newInstance()

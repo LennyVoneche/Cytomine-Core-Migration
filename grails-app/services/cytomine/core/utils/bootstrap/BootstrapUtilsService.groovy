@@ -128,7 +128,7 @@ class BootstrapUtilsService {
                 try {
                     user.save(flush: true)
                 } catch(Exception e) {
-                    log.info e
+                    log.info e.toString()
                 }
                 log.info "Save ${user.username}..."
 
@@ -397,6 +397,7 @@ class BootstrapUtilsService {
         MessageBrokerServer mbs = MessageBrokerServer.first()
         boolean toUpdate = false
 
+
         MessageBrokerServer.list().each { messageBroker ->
             if(!grailsApplication.config.grails.messageBrokerServerURL.equals(messageBroker.host+":"+messageBroker.port)) {
                 toUpdate = true
@@ -413,6 +414,7 @@ class BootstrapUtilsService {
             mbs = new MessageBrokerServer(name: "MessageBrokerServer", host: splittedURL[0], port: splittedURL[1].toInteger())
             if (mbs.validate()) {
                 mbs.save()
+                println "save ok"
             } else {
                 mbs.errors?.each {
                     log.info it

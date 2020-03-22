@@ -253,7 +253,7 @@ class IndexService {
             sql.close()
         }
         catch(Exception e) {
-            log.error e
+            log.error e.toString()
         }
     }
 }

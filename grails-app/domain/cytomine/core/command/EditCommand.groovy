@@ -33,6 +33,8 @@ class EditCommand extends Command {
      * @param oldObject domain before update
      * @param message Message build for the command
      */
+    static transients = ["json","domain","delete"]
+
     protected void fillCommandInfo(def newObject, def oldObject, String message) {
         HashMap<String, Object> paramsData = new HashMap<String, Object>()
         paramsData.put('previous' + responseService.getClassName(newObject), (JSON.parse(oldObject)))

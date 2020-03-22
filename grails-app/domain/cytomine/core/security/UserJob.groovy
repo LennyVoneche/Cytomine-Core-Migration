@@ -40,10 +40,12 @@ class UserJob extends SecUser {
 //    @RestApiObjectFields(params=[
 //        @RestApiObjectField(apiFieldName = "humanUsername", description = "The username of the user that launch this job",allowedType = "string",useForCreation = false)
 //    ])
-    static transients = []
+    static transients = ["newPassword", "currentTransaction", "nextTransaction"]
 
     static constraints = {
         job(nullable: true)
+        user blank: true, nullable: true
+        rate nullable: true, blank:true
     }
 
 

@@ -56,6 +56,7 @@ class Version {
     }
 
     static Version setCurrentVersion(Long version, String semantic) {
+        println "Information = $version, $semantic"
         Version actual = getLastVersion()
         log.info "Last version was ${actual}. Actual version will be $semantic ($version)"
         if(actual && actual.number>=version) {

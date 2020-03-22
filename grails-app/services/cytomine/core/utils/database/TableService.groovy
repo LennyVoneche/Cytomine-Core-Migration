@@ -119,7 +119,7 @@ class TableService {
         def response = null
         log.debug "request = $request"
         new Sql(dataSource).eachRow(request) {
-            log.debug it[0]
+            log.debug it[0].toString()
             response = it[0]
         }
         log.debug "response = $response"

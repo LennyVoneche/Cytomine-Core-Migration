@@ -54,6 +54,8 @@ class User extends SecUser {
 //        @RestApiObjectField(apiFieldName = "user", description = "(ONLY VISIBLE WHEN DOING GET /api/user/id.format service) True if the user is NOT ADMIN and is USER ",allowedType = "boolean",useForCreation = false),
 //        @RestApiObjectField(apiFieldName = "ghest", description = "(ONLY VISIBLE WHEN DOING GET /api/user/id.format service) True if the user is NOT ADMIN, NOT USER but a simple GHEST ",allowedType = "boolean",useForCreation = false)
 //    ])
+    static transients = ["newPassword", "currentTransaction", "nextTransaction"]
+
     static constraints = {
         firstname blank: false
         lastname blank: false
@@ -65,7 +67,7 @@ class User extends SecUser {
 
     static mapping = {
         id(generator: 'assigned', unique: true)
-        creator column: 'user_id'
+        creator column: 'user_id', nullable: true, blank: true
         sort "id"
         cache true
     }

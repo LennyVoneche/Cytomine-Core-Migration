@@ -27,6 +27,7 @@ import cytomine.core.command.Command
 import cytomine.core.command.DeleteCommand
 import cytomine.core.ontology.AlgoAnnotation
 import cytomine.core.ontology.UserAnnotation
+import grails.converters.JSON
 import org.springframework.util.ReflectionUtils
 import grails.util.GrailsNameUtils
 import org.springframework.transaction.annotation.Propagation
@@ -120,7 +121,7 @@ abstract class ModelService {
         return GrailsNameUtils.getPropertyName(GrailsNameUtils.getShortName(this.getClass()))
     }
 
-     def executeCommand(Command c, CytomineDomain domain, def json, Task task = null) {
+     def executeCommand(Command c, CytomineDomain domain, JSON json, Task task = null) {
         //bug, cannot do new XXXCommand(domain:domain, json:...) => new XXXCommand(); c.domain = domain; c.json = ...
         c.domain = domain
         c.json = json

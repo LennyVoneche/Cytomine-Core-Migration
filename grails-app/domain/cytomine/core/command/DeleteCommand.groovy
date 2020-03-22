@@ -33,6 +33,7 @@ class DeleteCommand extends Command {
      */
     boolean linkProject = true
 
+    static transients = ["json","domain","delete"]
 
     /**
      * Process an Add operation for this command

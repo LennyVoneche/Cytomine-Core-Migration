@@ -41,7 +41,7 @@ import java.lang.management.ManagementFactory
  */
 class BootStrap {
 
-//    def grailsApplication
+    def grailsApplication
 
     def sequenceService
     def marshallersService
@@ -51,12 +51,12 @@ class BootStrap {
     def termService
     def tableService
     def secUserService
-//    def noSQLCollectionService
+    def noSQLCollectionService
 //
-//    def retrieveErrorsService
-//    def bootstrapDataService
+    def retrieveErrorsService
+    def bootstrapDataService
 //
-//    def bootstrapUtilsService
+    def bootstrapUtilsService
 //    def bootstrapOldVersionService
 
     def dataSource
@@ -114,7 +114,8 @@ class BootStrap {
         println getClass().toString() + '003' + Version.count()
         if(Version.count()==0) {
             log.info "Version was not set, set to last version"
-            Version.setCurrentVersion(Long.parseLong(Holders.config.info.app.versionDate),Holders.config.info.app.versionDate)
+//            Version.setCurrentVersion(Long.parseLong(grailsApplication.config.info.app.versionDate as String),grailsApplication.config.info.app.versionDate as String)
+            Version.setCurrentVersion(Long.parseLong(grailsApplication.config.info.app.versionDate as String))
         }
 
 //        // TODO : delete this sql in v2.1
@@ -147,47 +148,47 @@ class BootStrap {
 
         log.info "init term service..."
         termService.initialize() //term service needs userservice and userservice needs termservice => init manualy at bootstrap
-//
-//        log.info "init retrieve errors hack..."
-//        retrieveErrorsService.initMethods()
-//
-//        // Initialize RabbitMQ server
-//        bootstrapUtilsService.initRabbitMq()
-//
-//        /* Fill data just in test environment*/
-//        log.info "fill with data..."
-//        if (Environment.getCurrent() == Environment.TEST) {
-//            bootstrapDataService.initData()
-//            noSQLCollectionService.cleanActivityDB()
-//            def usersSamples = [
-//                    [username : Infos.ANOTHERLOGIN, firstname : 'Just another', lastname : 'User', email : grailsApplication.config.grails.admin.email, group : [[name : "Cytomine"]], password : grailsApplication.config.grails.adminPassword, color : "#FF0000", roles : ["ROLE_USER", "ROLE_ADMIN","ROLE_SUPER_ADMIN"]]
-//            ]
-//            bootstrapUtilsService.createUsers(usersSamples)
-//
+
+        log.info "init retrieve errors hack..."
+        retrieveErrorsService.initMethods()
+
+        // Initialize RabbitMQ server
+        bootstrapUtilsService.initRabbitMq()
+        println "SecUser.count() = " + SecUser.count()
+        /* Fill data just in test environment*/
+        log.info "fill with data..."
+        if (Environment.getCurrent() == Environment.TEST) {
+            bootstrapDataService.initData()
+            noSQLCollectionService.cleanActivityDB()
+            def usersSamples = [
+                    [username : Infos.ANOTHERLOGIN, firstname : 'Just another', lastname : 'User', email : grailsApplication.config.grails.admin.email, group : [[name : "Cytomine"]], password : grailsApplication.config.grails.adminPassword, color : "#FF0000", roles : ["ROLE_USER", "ROLE_ADMIN","ROLE_SUPER_ADMIN"]]
+            ]
+            bootstrapUtilsService.createUsers(usersSamples)
+
 //            mockServicesForTests()
-//
-//        }  else if (SecUser.count() == 0) {
-//            //if database is empty, put minimal data
-//            bootstrapDataService.initData()
-//        }
-//
-//        //set public/private keys for special image server user
-//        //keys regenerated at each deployment with Docker
-//        //if keys deleted from external config files for security, keep old keys
-//        if(grailsApplication.config.grails.ImageServerPrivateKey && grailsApplication.config.grails.ImageServerPublicKey) {
-//            SecUser imageServerUser = SecUser.findByUsername("ImageServer1")
-//            imageServerUser.setPrivateKey(grailsApplication.config.grails.ImageServerPrivateKey)
-//            imageServerUser.setPublicKey(grailsApplication.config.grails.ImageServerPublicKey)
-//            imageServerUser.save(flush : true)
-//        }
-//        if(grailsApplication.config.grails.rabbitMQPrivateKey && grailsApplication.config.grails.rabbitMQPublicKey) {
-//            SecUser rabbitMQUser = SecUser.findByUsername("rabbitmq")
-//            if(rabbitMQUser) {
-//                rabbitMQUser.setPrivateKey(grailsApplication.config.grails.rabbitMQPrivateKey)
-//                rabbitMQUser.setPublicKey(grailsApplication.config.grails.rabbitMQPublicKey)
-//                rabbitMQUser.save(flush : true)
-//            }
-//        }
+
+        }  else if (SecUser.count() == 0) {
+            //if database is empty, put minimal data
+            bootstrapDataService.initData()
+        }
+
+        //set public/private keys for special image server user
+        //keys regenerated at each deployment with Docker
+        //if keys deleted from external config files for security, keep old keys
+        if(grailsApplication.config.grails.ImageServerPrivateKey && grailsApplication.config.grails.ImageServerPublicKey) {
+            SecUser imageServerUser = SecUser.findByUsername("ImageServer1")
+            imageServerUser.setPrivateKey(grailsApplication.config.grails.ImageServerPrivateKey)
+            imageServerUser.setPublicKey(grailsApplication.config.grails.ImageServerPublicKey)
+            imageServerUser.save(flush : true)
+        }
+        if(grailsApplication.config.grails.rabbitMQPrivateKey && grailsApplication.config.grails.rabbitMQPublicKey) {
+            SecUser rabbitMQUser = SecUser.findByUsername("rabbitmq")
+            if(rabbitMQUser) {
+                rabbitMQUser.setPrivateKey(grailsApplication.config.grails.rabbitMQPrivateKey)
+                rabbitMQUser.setPublicKey(grailsApplication.config.grails.rabbitMQPublicKey)
+                rabbitMQUser.save(flush : true)
+            }
+        }
 //
 //        log.info "init change for old version..."
 //        // TODO : delete this sql in v2.1

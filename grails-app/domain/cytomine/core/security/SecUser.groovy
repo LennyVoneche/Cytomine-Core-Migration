@@ -67,7 +67,7 @@ class SecUser extends CytomineDomain implements Serializable {
     static constraints = {
         username blank: false
         password blank: false
-        newPassword(nullable : true, blank : false)
+        newPassword(nullable : true, blank : true)
         publicKey nullable : true, blank : false, unique: true
         privateKey (nullable : true, blank : false)
         origin (blank : false, nullable: true)
@@ -79,6 +79,7 @@ class SecUser extends CytomineDomain implements Serializable {
         id(generator: 'assigned', unique: true)
         sort "id"
         cache true
+        tablePerHierarchy true
     }
 
     /**

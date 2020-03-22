@@ -31,6 +31,8 @@ class AddCommand extends Command {
      * Process an Add operation for this command
      * @return Message
      */
+    static transients = ["json","domain","delete"]
+
     def execute() {
         initService()
         //Create new domain from json data
