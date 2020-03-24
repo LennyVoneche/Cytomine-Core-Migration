@@ -10,7 +10,9 @@ buildscript {
     }
 }
 
-version "0.1"
+//version "0.1"
+//TODO: (Migration)
+version "2.0.0-rc.5"
 group "cytomine.core"
 
 apply plugin:"eclipse"
@@ -87,7 +89,6 @@ dependencies {
     compile group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
     compile group: 'org.hibernate', name: 'hibernate-spatial', version: '5.2.0.Final'
 
-    runtime 'org.postgresql:postgresql:9.4-1206-jdbc4'
     compile 'org.grails.plugins:database-migration:3.1.0.RC1'
 
 //    compile group: 'org.grails', name: 'grails-datastore-gorm', version: '7.0.3.RELEASE'
@@ -105,4 +106,17 @@ dependencies {
 assets {
     minifyJs = true
     minifyCss = true
+}
+import grails.util.Environment
+
+bootRun {
+
+    final Boolean reloadEnabled =
+            Boolean.valueOf(
+                    System.properties[Environment.RELOAD_ENABLED] as boolean)
+
+    if (reloadEnabled) {
+        systemProperty Environment.RELOAD_ENABLED, reloadEnabled
+    }
+
 }

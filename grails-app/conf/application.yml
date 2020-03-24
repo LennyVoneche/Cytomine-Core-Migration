@@ -9,8 +9,9 @@ grails:
 info:
     app:
         name: '@info.app.name@'
-        version: '@info.app.version@'
         grailsVersion: '@info.app.grailsVersion@'
+        version: '@info.app.version@'
+        #        TODO: (Migration) Code de migration de version
         versionDate: 20200213
 spring:
     groovy:

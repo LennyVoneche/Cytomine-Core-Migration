@@ -160,12 +160,12 @@ log4j = {
  * SPRING SECURITY CORE config
  ******************************************************************************/
 grails.plugin.springsecurity.useHttpSessionEventPublisher = true
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'be.cytomine.security.SecUser'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'cytomine.core.security.SecUser'
 grails.plugin.springsecurity.userLookup.passwordPropertyName = 'password'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'be.cytomine.security.SecUserSecRole'
-grails.plugin.springsecurity.authority.className = 'be.cytomine.security.SecRole'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'cytomine.core.security.SecUserSecRole'
+grails.plugin.springsecurity.authority.className = 'cytomine.core.security.SecRole'
 grails.plugin.springsecurity.authority.nameField = 'authority'
-grails.plugin.springsecurity.projectClass = 'be.cytomine.project.Project'
+grails.plugin.springsecurity.projectClass = 'cytomine.core.project.Project'
 grails.plugin.springsecurity.rememberMe.parameter = 'remember_me'
 grails.plugin.springsecurity.password.algorithm = 'SHA-256'
 grails.plugin.springsecurity.password.hash.iterations = 1
@@ -291,7 +291,7 @@ grails.doc.copyright="University of liège"
 grails.doc.footer="www.cytomine.org"
 grails.plugins.restapidoc.docVersion = "0.1"
 grails.plugins.restapidoc.basePath = "http://demo.cytomine.coop"
-grails.plugins.restapidoc.customClassName = "be.cytomine.api.doc.CustomResponseDoc"
+grails.plugins.restapidoc.customClassName = "cytomine.core.api.doc.CustomResponseDoc"
 grails.plugins.restapidoc.controllerPrefix = "Rest"
 grails.plugins.restapidoc.grailsDomainDefaultType = "long"
 

@@ -45,6 +45,7 @@ import cytomine.core.meta.Configuration
 import cytomine.core.utils.Version
 import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.util.Metadata
 import groovy.sql.Sql
 import org.apache.commons.io.FilenameUtils
 
@@ -78,6 +79,7 @@ class BootstrapOldVersionService {
     void execChangeForOldVersion() {
         def methods = this.metaClass.methods*.name.sort().unique()
         Version version = Version.getLastVersion()
+        println getClass().toString() + " Version = $version.major  $version.minor  $version.patch"
 
         if(!version.major){
             methods.findAll { it =~ "init[0-9]" }.each { method ->
@@ -111,13 +113,15 @@ class BootstrapOldVersionService {
             }
 
         }
-        Version.setCurrentVersion(Long.parseLong(grailsApplication.metadata.'app.versionDate'), grailsApplication.metadata.'app.version')
+//        TODO: (Migration)
+//        Version.setCurrentVersion(Long.parseLong(grailsApplication.metadata.'app.versionDate'), grailsApplication.metadata.'app.version')
+        Version.setCurrentVersion(Long.parseLong(grailsApplication.config.info.app.versionDate as String),grailsApplication.config.info.app.version as String)
     }
 
     def initv2_0_1() {
 
     }
-
+    //TODO: (Migration)
     def initv2_0_0() {
         log.info "Migration to V2.0.0"
         def sql = new Sql(dataSource)
@@ -165,6 +169,7 @@ class BootstrapOldVersionService {
             def groups = values.collate(batchSize)
             groups.eachWithIndex { def vals, int i ->
                 def formatted = vals.collect { v -> "(" + fields.collect { f -> v[f] }.join(",") + ")"}
+//                  TODO: (Migration) " ON CONFLICT DO NOTHING;"
                 sql.execute('INSERT INTO project_last_activity (' + fields.join(",") +') VALUES ' + formatted.join(",") + " ON CONFLICT DO NOTHING;")
             }
         }
@@ -248,7 +253,8 @@ class BootstrapOldVersionService {
             sql.executeUpdate("DELETE FROM uploaded_file WHERE size = 0 AND image_id IN (SELECT image_id FROM uploaded_file GROUP BY image_id HAVING COUNT(*) = 2);")
         }
 
-
+//        TODO: (Migration) AbstractImage = image utilisable, UploadFile = fichier uploader, AbstractSlice = plan
+//        TODO: (Migration) Si AbstractImage = video.mp4 alors AbstractSlice = chaque frame de la vidéo
         /****** ABSTRACT SLICE ******/
         if (AbstractSlice.count() == 0) {
             log.info "Migration of abstract slice"
@@ -623,6 +629,7 @@ class BootstrapOldVersionService {
         tableService.initTable()
 
         sql.close()
+        println getClass().toString() + '003'
     }
 
     def imagePropertiesService

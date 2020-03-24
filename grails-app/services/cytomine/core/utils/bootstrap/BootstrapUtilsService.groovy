@@ -40,6 +40,7 @@ import grails.util.Environment
 import grails.util.Holders
 import groovy.json.JsonBuilder
 import groovy.sql.Sql
+import org.grails.orm.hibernate.HibernateDatastore
 
 /**
  * Cytomine
@@ -252,7 +253,7 @@ class BootstrapUtilsService {
                 config.save()
             } else {
                 config.errors?.each {
-                    log.info it
+                    log.info it.toString()
                 }
             }
         }
@@ -485,105 +486,116 @@ class BootstrapUtilsService {
     def imageConsultationService
     void fillProjectConnections() {
         SpringSecurityUtils.doWithAuth("superadmin", {
-            Date before = new Date();
+//            TODO: (Migration)
+            HibernateDatastore datastore = new HibernateDatastore(PersistentProjectConnection)
 
-            def connections = PersistentProjectConnection.findAllByTimeIsNullOrCountCreatedAnnotationsIsNullOrCountViewedImagesIsNull(sort: 'created', order: 'desc', max: Integer.MAX_VALUE)
-            log.info "project connections to update " + connections.size()
+            PersistentProjectConnection.withNewSession {
 
-            def sql = new Sql(dataSource)
+                Date before = new Date();
 
-            for (PersistentProjectConnection projectConnection : connections) {
-                Date after = projectConnection.created;
+                def connections = PersistentProjectConnection.findAllByTimeIsNullOrCountCreatedAnnotationsIsNullOrCountViewedImagesIsNull(sort: 'created', order: 'desc', max: Integer.MAX_VALUE)
+                log.info "project connections to update " + connections.size()
 
-                // collect {it.created.getTime} is really slow. I just want the getTime of PersistentConnection
-                def db = mongo.getDB(noSQLCollectionService.getDatabaseName())
-                def lastConnection = db.persistentConnection.aggregate(
-                        [$match: [project: projectConnection.project, user: projectConnection.user, $and : [[created: [$gte: after]],[created: [$lte: before]]]]],
-                        [$sort: [created: 1]],
-                        [$project: [dateInMillis: [$subtract: ['$created', new Date(0L)]]]]
-                );
+                def sql = new Sql(dataSource)
 
-                def continuousConnections = lastConnection.results().collect { it.dateInMillis }
+                for (PersistentProjectConnection projectConnection : connections) {
+                    Date after = projectConnection.created;
 
-                //we calculate the gaps between connections to identify the period of non activity
-                def continuousConnectionIntervals = []
+                    // collect {it.created.getTime} is really slow. I just want the getTime of PersistentConnection
+                    def db = mongo.getDB(noSQLCollectionService.getDatabaseName())
+                    def lastConnection = db.persistentConnection.aggregate(
+                            [$match: [project: projectConnection.project, user: projectConnection.user, $and: [[created: [$gte: after]], [created: [$lte: before]]]]],
+                            [$sort: [created: 1]],
+                            [$project: [dateInMillis: [$subtract: ['$created', new Date(0L)]]]]
+                    );
 
-                continuousConnections.inject(projectConnection.created.time) { result, i ->
-                    continuousConnectionIntervals << (i-result)
-                    i
+                    def continuousConnections = lastConnection.results().collect { it.dateInMillis }
+
+                    //we calculate the gaps between connections to identify the period of non activity
+                    def continuousConnectionIntervals = []
+
+                    continuousConnections.inject(projectConnection.created.time) { result, i ->
+                        continuousConnectionIntervals << (i - result)
+                        i
+                    }
+
+                    projectConnection.time = continuousConnectionIntervals.split { it < 30000 }[0].sum()
+                    if (projectConnection.time == null) projectConnection.time = 0;
+
+                    // count viewed images
+                    projectConnection.countViewedImages = imageConsultationService.getImagesOfUsersByProjectBetween(projectConnection.user, projectConnection.project, after, before).size()
+
+                    db.persistentImageConsultation.update(
+                            [$and: [[project: projectConnection.project], [user: projectConnection.user], [created: [$gte: after]], [created: [$lte: before]]]],
+                            [$set: [projectConnection: projectConnection.id]])
+
+                    // count created annotations
+                    String request = "SELECT COUNT(*) FROM user_annotation a WHERE a.project_id = ${projectConnection.project} AND a.user_id = ${projectConnection.user} AND a.created < '${before}' AND a.created > '${after}'"
+
+                    sql.eachRow(request) {
+                        projectConnection.countCreatedAnnotations = it[0];
+                    }
+
+                    projectConnection.save(flush: true, failOnError: true)
+                    before = projectConnection.created
                 }
-
-                projectConnection.time = continuousConnectionIntervals.split{it < 30000}[0].sum()
-                if(projectConnection.time == null) projectConnection.time=0;
-
-                // count viewed images
-                projectConnection.countViewedImages = imageConsultationService.getImagesOfUsersByProjectBetween(projectConnection.user, projectConnection.project,after, before).size()
-
-                db.persistentImageConsultation.update(
-                        [$and :[ [project:projectConnection.project],[user:projectConnection.user],[created:[$gte:after]],[created:[$lte:before]]]],
-                        [$set: [projectConnection: projectConnection.id]])
-
-                // count created annotations
-                String request = "SELECT COUNT(*) FROM user_annotation a WHERE a.project_id = ${projectConnection.project} AND a.user_id = ${projectConnection.user} AND a.created < '${before}' AND a.created > '${after}'"
-
-                sql.eachRow(request) {
-                    projectConnection.countCreatedAnnotations = it[0];
-                }
-
-                projectConnection.save(flush : true, failOnError: true)
-                before = projectConnection.created
+                sql.close()
             }
-            sql.close()
         });
     }
     void fillImageConsultations() {
         SpringSecurityUtils.doWithAuth("superadmin", {
-            Date before = new Date();
+//            TODO: (Migration)
+            HibernateDatastore datastore = new HibernateDatastore(PersistentImageConsultation)
 
-            def consultations = PersistentImageConsultation.findAllByTimeIsNullOrCountCreatedAnnotationsIsNull(sort: 'created', order: 'desc', max: Integer.MAX_VALUE)
-            log.info "image consultations to update " + consultations.size()
+            PersistentImageConsultation.withNewSession {
+                Date before = new Date();
 
-            def sql = new Sql(dataSource)
+                def consultations = PersistentImageConsultation.findAllByTimeIsNullOrCountCreatedAnnotationsIsNull(sort: 'created', order: 'desc', max: Integer.MAX_VALUE)
+                log.info "image consultations to update " + consultations.size()
 
-            for (PersistentImageConsultation consultation : consultations) {
-                Date after = consultation.created;
+                def sql = new Sql(dataSource)
 
-                // collect {it.created.getTime} is really slow. I just want the getTime of PersistentConnection
-                def db = mongo.getDB(noSQLCollectionService.getDatabaseName())
-                def positions = db.persistentUserPosition.aggregate(
-                        [$match: [project: consultation.project, user: consultation.user, image: consultation.image, $and : [[created: [$gte: after]],[created: [$lte: before]]]]],
-                        [$sort: [created: 1]],
-                        [$project: [dateInMillis: [$subtract: ['$created', new Date(0L)]]]]
-                );
+                for (PersistentImageConsultation consultation : consultations) {
+                    Date after = consultation.created;
 
-                def continuousConnections = positions.results().collect { it.dateInMillis }
+                    // collect {it.created.getTime} is really slow. I just want the getTime of PersistentConnection
+                    def db = mongo.getDB(noSQLCollectionService.getDatabaseName())
+                    def positions = db.persistentUserPosition.aggregate(
+                            [$match: [project: consultation.project, user: consultation.user, image: consultation.image, $and: [[created: [$gte: after]], [created: [$lte: before]]]]],
+                            [$sort: [created: 1]],
+                            [$project: [dateInMillis: [$subtract: ['$created', new Date(0L)]]]]
+                    );
 
-                //we calculate the gaps between connections to identify the period of non activity
-                def continuousConnectionIntervals = []
+                    def continuousConnections = positions.results().collect { it.dateInMillis }
 
-                continuousConnections.inject(consultation.created.time) { result, i ->
-                    continuousConnectionIntervals << (i-result)
-                    i
+                    //we calculate the gaps between connections to identify the period of non activity
+                    def continuousConnectionIntervals = []
+
+                    continuousConnections.inject(consultation.created.time) { result, i ->
+                        continuousConnectionIntervals << (i - result)
+                        i
+                    }
+
+                    consultation.time = continuousConnectionIntervals.split { it < 30000 }[0].sum()
+                    if (consultation.time == null) consultation.time = 0;
+
+                    // count created annotations
+                    String request = "SELECT COUNT(*) FROM user_annotation a WHERE " +
+                            "a.project_id = ${consultation.project} " +
+                            "AND a.user_id = ${consultation.user} " +
+                            "AND a.image_id = ${consultation.image} " +
+                            "AND a.created < '${before}' AND a.created > '${after}'"
+
+                    sql.eachRow(request) {
+                        consultation.countCreatedAnnotations = it[0];
+                    }
+
+                    consultation.save(flush: true, failOnError: true)
+                    before = consultation.created
                 }
-
-                consultation.time = continuousConnectionIntervals.split{it < 30000}[0].sum()
-                if(consultation.time == null) consultation.time=0;
-
-                // count created annotations
-                String request = "SELECT COUNT(*) FROM user_annotation a WHERE " +
-                        "a.project_id = ${consultation.project} " +
-                        "AND a.user_id = ${consultation.user} " +
-                        "AND a.image_id = ${consultation.image} " +
-                        "AND a.created < '${before}' AND a.created > '${after}'"
-
-                sql.eachRow(request) {
-                    consultation.countCreatedAnnotations = it[0];
-                }
-
-                consultation.save(flush : true, failOnError: true)
-                before = consultation.created
+                sql.close()
             }
-            sql.close()
         });
     }
 

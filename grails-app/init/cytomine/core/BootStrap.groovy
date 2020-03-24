@@ -43,7 +43,7 @@ class BootStrap {
 
     def grailsApplication
 
-    def sequenceService
+//    def sequenceService
     def marshallersService
     def indexService
     def triggerService
@@ -57,7 +57,7 @@ class BootStrap {
     def bootstrapDataService
 //
     def bootstrapUtilsService
-//    def bootstrapOldVersionService
+    def bootstrapOldVersionService
 
     def dataSource
     def sessionFactory
@@ -65,8 +65,6 @@ class BootStrap {
 
 
     def init = { servletContext ->
-        println getClass().toString() + '001'
-//
 //        //Register API Authentifier
         SpringSecurityUtils.clientRegisterFilter( 'apiAuthentificationFilter', SecurityFilterPosition.DIGEST_AUTH_FILTER.order + 1)
 
@@ -101,6 +99,7 @@ class BootStrap {
                 "HeadLess: ": java.awt.GraphicsEnvironment.isHeadless(),
                 "SQL": [url:Holders.config.dataSource.url, user:Holders.config.dataSource.username, password:Holders.config.dataSource.password, driver:Holders.config.dataSource.driverClassName],
                 "NOSQL": [host:Holders.config.grails.mongo.host, port:Holders.config.grails.mongo.port, databaseName:Holders.config.grails.mongo.databaseName],
+//                  TODO: (Migration)
 //                "Datasource properties": servletContext.getAttribute(ApplicationAttributes.APPLICATION_CONTEXT).dataSourceUnproxied.properties,
                 "JVM Args" : ManagementFactory.getRuntimeMXBean().getInputArguments()
         ].each {
@@ -111,26 +110,30 @@ class BootStrap {
         log.info "#############################################################################"
         log.info "#############################################################################"
         log.info "#############################################################################"
-        println getClass().toString() + '003' + Version.count()
+        println getClass().toString() + '003 ' + Version.count()
+        println getClass().toString() + '003.1 ' + grailsApplication.config.info.app.versionDate as String
+        println getClass().toString() + '003.2 ' + grailsApplication.config.info.app.version as String
         if(Version.count()==0) {
             log.info "Version was not set, set to last version"
+//            TODO: (Migration)
 //            Version.setCurrentVersion(Long.parseLong(grailsApplication.config.info.app.versionDate as String),grailsApplication.config.info.app.versionDate as String)
-            Version.setCurrentVersion(Long.parseLong(grailsApplication.config.info.app.versionDate as String))
+            Version.setCurrentVersion(Long.parseLong(grailsApplication.config.info.app.versionDate as String),grailsApplication.config.info.app.version as String)
         }
 
-//        // TODO : delete this sql in v2.1
-//        if (!bootstrapUtilsService.checkSqlColumnExistence("sec_user", "origin")) {
-//            new Sql(dataSource).executeUpdate("ALTER TABLE sec_user ADD COLUMN origin VARCHAR;")
-//        }
-//
-//        if (!bootstrapUtilsService.checkSqlColumnExistence("sec_user", "language")) {
-//            new Sql(dataSource).executeUpdate("ALTER TABLE sec_user ADD COLUMN language VARCHAR;")
-//        }
+        // TODO : delete this sql in v2.1
+        if (!bootstrapUtilsService.checkSqlColumnExistence("sec_user", "origin")) {
+            new Sql(dataSource).executeUpdate("ALTER TABLE sec_user ADD COLUMN origin VARCHAR;")
+        }
+
+        if (!bootstrapUtilsService.checkSqlColumnExistence("sec_user", "language")) {
+            new Sql(dataSource).executeUpdate("ALTER TABLE sec_user ADD COLUMN language VARCHAR;")
+        }
 
         //Initialize marshallers and services
         log.info "init marshaller..."
           marshallersService.initMarshallers()
 
+//        TODO: (Migration) Deprecated
 //        log.info "init sequences..."
 //        sequenceService.initSequences()
 
@@ -140,6 +143,7 @@ class BootStrap {
         log.info "init index..."
         indexService.initIndex()
 
+//        TODO: (Migration) Deprecated
 //        log.info "init grant..."
 //        grantService.initGrant()
 
@@ -175,43 +179,46 @@ class BootStrap {
         //set public/private keys for special image server user
         //keys regenerated at each deployment with Docker
         //if keys deleted from external config files for security, keep old keys
+
         if(grailsApplication.config.grails.ImageServerPrivateKey && grailsApplication.config.grails.ImageServerPublicKey) {
             SecUser imageServerUser = SecUser.findByUsername("ImageServer1")
-            imageServerUser.setPrivateKey(grailsApplication.config.grails.ImageServerPrivateKey)
-            imageServerUser.setPublicKey(grailsApplication.config.grails.ImageServerPublicKey)
+            imageServerUser.setPrivateKey(grailsApplication.config.grails.ImageServerPrivateKey as String)
+            imageServerUser.setPublicKey(grailsApplication.config.grails.ImageServerPublicKey as String)
             imageServerUser.save(flush : true)
         }
         if(grailsApplication.config.grails.rabbitMQPrivateKey && grailsApplication.config.grails.rabbitMQPublicKey) {
             SecUser rabbitMQUser = SecUser.findByUsername("rabbitmq")
             if(rabbitMQUser) {
-                rabbitMQUser.setPrivateKey(grailsApplication.config.grails.rabbitMQPrivateKey)
-                rabbitMQUser.setPublicKey(grailsApplication.config.grails.rabbitMQPublicKey)
+                rabbitMQUser.setPrivateKey(grailsApplication.config.grails.rabbitMQPrivateKey as String)
+                rabbitMQUser.setPublicKey(grailsApplication.config.grails.rabbitMQPublicKey as String)
                 rabbitMQUser.save(flush : true)
             }
         }
-//
-//        log.info "init change for old version..."
-//        // TODO : delete this sql in v2.1
-//        def exists = new Sql(dataSource).rows("SELECT column_name " +
-//                "FROM information_schema.columns " +
-//                "WHERE table_name='version' and column_name='major';").size() == 1;
-//        if (!exists) {
-//            new Sql(dataSource).executeUpdate("ALTER TABLE version ADD COLUMN major integer;")
-//            new Sql(dataSource).executeUpdate("ALTER TABLE version ADD COLUMN minor integer;")
-//            new Sql(dataSource).executeUpdate("ALTER TABLE version ADD COLUMN patch integer;")
-//        }
-//
-//        bootstrapOldVersionService.execChangeForOldVersion()
-//
-//        log.info "create multiple IS and Retrieval..."
-//        bootstrapUtilsService.createMultipleIS()
-//        bootstrapUtilsService.createMultipleRetrieval()
-//        bootstrapUtilsService.updateDefaultProcessingServer()
-//
-//        bootstrapUtilsService.fillProjectConnections();
-//        bootstrapUtilsService.fillImageConsultations();
-//
-//        bootstrapUtilsService.initProcessingServerQueues()
+
+        log.info "init change for old version..."
+        // TODO : delete this sql in v2.1
+        def exists = new Sql(dataSource).rows("SELECT column_name " +
+                "FROM information_schema.columns " +
+                "WHERE table_name='version' and column_name='major';").size() == 1;
+        if (!exists) {
+            new Sql(dataSource).executeUpdate("ALTER TABLE version ADD COLUMN major integer;")
+            new Sql(dataSource).executeUpdate("ALTER TABLE version ADD COLUMN minor integer;")
+            new Sql(dataSource).executeUpdate("ALTER TABLE version ADD COLUMN patch integer;")
+        }
+
+//        TODO: (Migration) Code de migration de version
+        bootstrapOldVersionService.execChangeForOldVersion()
+
+        log.info "create multiple IS and Retrieval..."
+        bootstrapUtilsService.createMultipleIS()
+        bootstrapUtilsService.createMultipleRetrieval()
+        bootstrapUtilsService.updateDefaultProcessingServer()
+
+
+        bootstrapUtilsService.fillProjectConnections();
+        bootstrapUtilsService.fillImageConsultations();
+
+        bootstrapUtilsService.initProcessingServerQueues()
 
 //        fixPlugins()
     }

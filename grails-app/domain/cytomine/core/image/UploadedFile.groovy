@@ -103,6 +103,7 @@ class UploadedFile extends CytomineDomain implements Serializable {
     String contentType
 
 //    @RestApiObjectField(description = "The parent uploaded file in the hierarchy")
+//    TODO: (Migration) Fichier d'origine
     UploadedFile parent
 
 //    @RestApiObjectField(description = "File size", mandatory = false)
@@ -124,6 +125,8 @@ class UploadedFile extends CytomineDomain implements Serializable {
         id(generator: 'assigned', unique: true)
         lTree(type: LTreeType, sqlType: 'ltree')
         cache(true)
+//        TODO: (Migration)
+//        parent column: 'image_id'
     }
 
     static constraints = {
