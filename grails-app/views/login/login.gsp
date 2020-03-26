@@ -74,6 +74,7 @@
 
     <form id="login-form" class="form-signin" role="form">
         <h2 class="form-signin-heading">Login without SSO:</h2>
+%{--        TODO: (Migration)--}%
         <input id="j_username" name="j_username" type="text" class="form-control" placeholder="Username" required>
         <input id="j_password" name="j_password" type="password" class="form-control" placeholder="Password" required>
         <div class="checkbox">

@@ -247,6 +247,7 @@ class LoginController extends RestController {
     }
 
     def forgotPassword () {
+//        TODO: (Migration)
         String username = params.j_username
         if (username) {
             User user = User.findByUsername(username) //we are not logged, so we bypass the service
@@ -266,7 +267,7 @@ class LoginController extends RestController {
         }
     }
     /*def createAccount () {
-        String username = params.j_username
+        String username = params.username
         String email = params.j_email
 
         if (username && email) {

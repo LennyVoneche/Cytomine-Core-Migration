@@ -46,7 +46,8 @@ grails.converters.json.default.deep = false
 grails.scaffolding.templates.domainSuffix = 'Instance'
 grails.json.legacy.builder = false // use the new Grails 1.2 JSONBuilder in the render method
 grails.enable.native2ascii = true // enabled native2ascii conversion of i18n properties files
-grails.logging.jul.usebridge = true // whether to install the java.util.logging bridge for sl4j
+//TODO: (Migration)
+//grails.logging.jul.usebridge = true // whether to install the java.util.logging bridge for sl4j
 grails.spring.bean.packages = [] // packages to include in Spring bean scanning
 grails.mime.file.extensions = true // parsing of file extensions from URLs into the request format
 grails.mime.use.accept.header = false
@@ -89,72 +90,72 @@ coverage {
     enableByDefault = false
     xml = true
 }
-
-log4j = {
-    println "Log4j consoleLevel"
-
-    appenders {
-        console name: 'stdout', layout: pattern(conversionPattern: '%d{dd-MM-yyyy HH:mm:ss,SSS} %5p %c{1} - %m%n')
-        rollingFile  name:'infoLog', file:'/tmp/cytomine-info.log', threshold: org.apache.log4j.Level.INFO, maxFileSize:1024
-        rollingFile  name:'warnLog', file:'/tmp/cytomine-warn.log', threshold: org.apache.log4j.Level.WARN, maxFileSize:1024
-        rollingFile  name:'errorLog', file:'/tmp/cytomine-error.log', threshold: org.apache.log4j.Level.ERROR, maxFileSize:1024
-        rollingFile  name:'custom', file:'/tmp/cytomine-custom.log', maxFileSize:1024
-    }
-
-    error   'org.codehaus.groovy.grails.domain',
-            'org.codehaus.groovy.grails.web.servlet',  //  controllers
-            'org.codehaus.groovy.grails.web.pages', //  GSP
-            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping', // URL mapping
-            'org.codehaus.groovy.grails.commons', // core / classloading
-            'org.codehaus.groovy.grails.plugins', // plugins
-            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-            'org.springframework',
-            'net.sf.ehcache.hibernate',
-            'org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog',
-            'org.springframework.security.web.context',
-            'org.hibernate.engine','net.sf.hibernate.impl.SessionImpl',
-            'com.granicus.grails.plugins.cookiesession',
-            'grails.plugin.springsecurity'
-
-    environments {
-        production {
-            root {
-                info 'errorLog','warnLog', 'infoLog', 'stdout'
-                additivity = true
-            }
-        }
-        development {
-            root {
-                info 'errorLog','warnLog', 'infoLog', 'stdout'
-                additivity = true
-            }
-        }
-        cluster {
-            root {
-                info 'appLog',"logfile", 'stdout'
-                additivity = true
-            }
-        }
-        test {
-            root {
-                info 'appLog',"logfile", 'stdout'
-                additivity = true
-            }
-        }
-        perf {
-            root {
-                info 'appLog',"logfile", 'stdout'
-                additivity = true
-            }
-        }
-    }
-
-// UNCOMMENT THESE 2 LINES TO SEE SQL REQUEST AND THEIR PARAMETERS VALUES
-//    debug 'org.hibernate.SQL'
-//    trace 'org.hibernate.type'
-}
+//TODO: (Migration)
+//log4j = {
+//    println "Log4j consoleLevel"
+//
+//    appenders {
+//        console name: 'stdout', layout: pattern(conversionPattern: '%d{dd-MM-yyyy HH:mm:ss,SSS} %5p %c{1} - %m%n')
+//        rollingFile  name:'infoLog', file:'/tmp/cytomine-info.log', threshold: org.apache.log4j.Level.INFO, maxFileSize:1024
+//        rollingFile  name:'warnLog', file:'/tmp/cytomine-warn.log', threshold: org.apache.log4j.Level.WARN, maxFileSize:1024
+//        rollingFile  name:'errorLog', file:'/tmp/cytomine-error.log', threshold: org.apache.log4j.Level.ERROR, maxFileSize:1024
+//        rollingFile  name:'custom', file:'/tmp/cytomine-custom.log', maxFileSize:1024
+//    }
+//
+//    error   'org.codehaus.groovy.grails.domain',
+//            'org.codehaus.groovy.grails.web.servlet',  //  controllers
+//            'org.codehaus.groovy.grails.web.pages', //  GSP
+//            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+//            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+//            'org.codehaus.groovy.grails.web.mapping', // URL mapping
+//            'org.codehaus.groovy.grails.commons', // core / classloading
+//            'org.codehaus.groovy.grails.plugins', // plugins
+//            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+//            'org.springframework',
+//            'net.sf.ehcache.hibernate',
+//            'org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog',
+//            'org.springframework.security.web.context',
+//            'org.hibernate.engine','net.sf.hibernate.impl.SessionImpl',
+//            'com.granicus.grails.plugins.cookiesession',
+//            'grails.plugin.springsecurity'
+//
+//    environments {
+//        production {
+//            root {
+//                info 'errorLog','warnLog', 'infoLog', 'stdout'
+//                additivity = true
+//            }
+//        }
+//        development {
+//            root {
+//                info 'errorLog','warnLog', 'infoLog', 'stdout'
+//                additivity = true
+//            }
+//        }
+//        cluster {
+//            root {
+//                info 'appLog',"logfile", 'stdout'
+//                additivity = true
+//            }
+//        }
+//        test {
+//            root {
+//                info 'appLog',"logfile", 'stdout'
+//                additivity = true
+//            }
+//        }
+//        perf {
+//            root {
+//                info 'appLog',"logfile", 'stdout'
+//                additivity = true
+//            }
+//        }
+//    }
+//
+//// UNCOMMENT THESE 2 LINES TO SEE SQL REQUEST AND THEIR PARAMETERS VALUES
+////    debug 'org.hibernate.SQL'
+////    trace 'org.hibernate.type'
+//}
 
 /******************************************************************************
  * SPRING SECURITY CORE config
@@ -172,6 +173,25 @@ grails.plugin.springsecurity.password.hash.iterations = 1
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 grails.plugin.springsecurity.useSwitchUserFilter = true
+grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
+
+//grails.plugin.springsecurity.interceptUrlMap = [
+//        [pattern: '/admin/**',               		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+//        [pattern: '/admincyto/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+//        [pattern: '/monitoring/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+//        [pattern: '/j_spring_security_switch_user', access:['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+//        [pattern: '/securityInfo/**',      			access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+//        [pattern: '/api/**',       					access: ['IS_AUTHENTICATED_REMEMBERED']],
+//        [pattern: '/lib/**',     					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+//        [pattern: '/css/**',       					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+//        [pattern: '/images/**',      				access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+//        [pattern: '/*',   							access: ['permitAll']],
+//        [pattern: '/login/**',						access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+//        [pattern: '/logout/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+//        [pattern: '/status/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']]
+//]
+
+//TODO: (Migration)
 //grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 //grails.plugin.springsecurity.interceptUrlMap = [
 //        '/admin/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
@@ -187,23 +207,6 @@ grails.plugin.springsecurity.useSwitchUserFilter = true
 //        '/login/**':    ['IS_AUTHENTICATED_ANONYMOUSLY'],
 //        '/logout/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
 //        '/status/**':   ['IS_AUTHENTICATED_ANONYMOUSLY']
-//]
-grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
-
-//grails.plugin.springsecurity.interceptUrlMap = [
-//		[pattern: '/admin/**',               		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//		[pattern: '/admincyto/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//		[pattern: '/monitoring/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//		[pattern: '/j_spring_security_switch_user', access:['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//		[pattern: '/securityInfo/**',      			access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//		[pattern: '/api/**',       					access: ['IS_AUTHENTICATED_REMEMBERED']],
-//		[pattern: '/lib/**',     					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//		[pattern: '/css/**',       					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//		[pattern: '/images/**',      				access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//		[pattern: '/*',   							access: ['permitAll']],
-//		[pattern: '/login/**',						access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//		[pattern: '/logout/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//		[pattern: '/status/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']]
 //]
 
 grails.plugin.springsecurity.interceptUrlMap = [
@@ -279,48 +282,48 @@ grails.plugins.dynamicController.mixins = [
         'com.burtbeckwith.grails.plugins.appinfo.PropertiesControllerMixin':'com.burtbeckwith.appinfo_test.AdminManageController',
         'com.burtbeckwith.grails.plugins.appinfo.ScopesControllerMixin':'com.burtbeckwith.appinfo_test.AdminManageController'
 ]
-
-/******************************************************************************
- * Doc config
- ******************************************************************************/
-grails.doc.title="Cytomine"
-grails.doc.subtitle="Documentation"
-grails.doc.authors="Hoyoux Renaud, Marée Raphaël, Rollus Loïc, Stévens Benjamin"
-grails.doc.license="Apache2"
-grails.doc.copyright="University of liège"
-grails.doc.footer="www.cytomine.org"
-grails.plugins.restapidoc.docVersion = "0.1"
-grails.plugins.restapidoc.basePath = "http://demo.cytomine.coop"
-grails.plugins.restapidoc.customClassName = "cytomine.core.api.doc.CustomResponseDoc"
-grails.plugins.restapidoc.controllerPrefix = "Rest"
-grails.plugins.restapidoc.grailsDomainDefaultType = "long"
-
-grails.plugins.restapidoc.defaultParamsQueryMultiple = [
-        [name:"max",description:"Pagination: Number of record per page (default 0 = no pagination)",type:"int"],
-        [name:"offset",description:"Pagination: Offset of first record (default 0 = first record)",type:"int"]
-]
-
-grails.plugins.restapidoc.defaultErrorAll = [
-        "400": "Bad Request: missing parameters or bad message format",
-        "401": "Unauthorized: must be auth",
-        "403": "Forbidden: role error",
-        "404": "Object not found"
-]
-
-grails.plugins.restapidoc.defaultErrorGet = [
-        "400": "Bad Request: missing parameters or bad message format",
-        "401": "Unauthorized: must be auth",
-        "403": "Forbidden: role error",
-        "404": "Object not found"
-]
-
-grails.plugins.restapidoc.defaultErrorPost = [
-        "409": "Object already exist"
-]
-
-grails.plugins.restapidoc.defaultErrorPut = [
-        "409": "Object already exist"
-]
+//TODO: (Migration)
+///******************************************************************************
+// * Doc config
+// ******************************************************************************/
+//grails.doc.title="Cytomine"
+//grails.doc.subtitle="Documentation"
+//grails.doc.authors="Hoyoux Renaud, Marée Raphaël, Rollus Loïc, Stévens Benjamin"
+//grails.doc.license="Apache2"
+//grails.doc.copyright="University of liège"
+//grails.doc.footer="www.cytomine.org"
+//grails.plugins.restapidoc.docVersion = "0.1"
+//grails.plugins.restapidoc.basePath = "http://demo.cytomine.coop"
+//grails.plugins.restapidoc.customClassName = "cytomine.core.api.doc.CustomResponseDoc"
+//grails.plugins.restapidoc.controllerPrefix = "Rest"
+//grails.plugins.restapidoc.grailsDomainDefaultType = "long"
+//
+//grails.plugins.restapidoc.defaultParamsQueryMultiple = [
+//        [name:"max",description:"Pagination: Number of record per page (default 0 = no pagination)",type:"int"],
+//        [name:"offset",description:"Pagination: Offset of first record (default 0 = first record)",type:"int"]
+//]
+//
+//grails.plugins.restapidoc.defaultErrorAll = [
+//        "400": "Bad Request: missing parameters or bad message format",
+//        "401": "Unauthorized: must be auth",
+//        "403": "Forbidden: role error",
+//        "404": "Object not found"
+//]
+//
+//grails.plugins.restapidoc.defaultErrorGet = [
+//        "400": "Bad Request: missing parameters or bad message format",
+//        "401": "Unauthorized: must be auth",
+//        "403": "Forbidden: role error",
+//        "404": "Object not found"
+//]
+//
+//grails.plugins.restapidoc.defaultErrorPost = [
+//        "409": "Object already exist"
+//]
+//
+//grails.plugins.restapidoc.defaultErrorPut = [
+//        "409": "Object already exist"
+//]
 
 /*****************************************************************************
  * CYTOMINE configuration

@@ -161,9 +161,11 @@ class HttpClient {
 
     public static HttpClient getClientWithCookie(String host,String username, String password) throws Exception {
         HttpClient client = null;
+//        TODO: (Migration)
         String suburl = "/j_spring_security_check";
         client = new HttpClient();
         client.connect(host + suburl, username, password);
+        //        TODO: (Migration)
         client.post("j_username=lrollus&j_email=&j_password=lR%242011&remember_me=on");
         client.cookies = client.client.getCookieStore().getCookies();
         if( client.response!=null && client.response.getEntity() != null ) {

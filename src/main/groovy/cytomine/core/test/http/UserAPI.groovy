@@ -207,6 +207,7 @@ class UserAPI extends DomainAPI {
 
     static def switchUser(String usernameToSwitch,String username, String password) {
         String URL = Infos.CYTOMINEURL + "j_spring_security_switch_user"
+        //        TODO: (Migration)
         return doPOST(URL, 'j_username: '+usernameToSwitch,username, password)
     }
 
