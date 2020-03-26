@@ -173,8 +173,14 @@ grails.plugin.springsecurity.password.hash.iterations = 1
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 grails.plugin.springsecurity.useSwitchUserFilter = true
-grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
+//TODO: (Migration)
+grails.plugin.springsecurity.apf.filterProcessesUrl = '/j_spring_security_check'
+grails.plugin.springsecurity.apf.usernameParameter = 'j_username'
+grails.plugin.springsecurity.apf.passwordParameter = 'j_password'
 
+
+
+grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 //grails.plugin.springsecurity.interceptUrlMap = [
 //        [pattern: '/admin/**',               		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
 //        [pattern: '/admincyto/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],

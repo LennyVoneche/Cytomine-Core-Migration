@@ -17,6 +17,7 @@ package cytomine.core.security
 */
 
 import cytomine.core.api.RestController
+import cytomine.core.utils.Version
 import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.springframework.security.authentication.AccountExpiredException
@@ -120,6 +121,8 @@ class LoginController extends RestController {
      * Callback after a failed login. Redirects to the auth page with a warning message.
      */
     def authfail () {
+        println getClass().toString() + '001 '
+
         log.info "springSecurityService.isLoggedIn()="+springSecurityService.isLoggedIn()
         def msg = ''
         Throwable exception = session[AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY]
@@ -169,6 +172,7 @@ class LoginController extends RestController {
      * The Ajax success redirect url.
      */
     def ajaxSuccess () {
+        println getClass().toString() + '001 '
         User user = User.read(springSecurityService.currentUser.id)
 
         //log.info springSecurityService.principal.id
