@@ -28,7 +28,6 @@ import grails.transaction.Transactional
 @Transactional
 class ConfigurationService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def transactionService
     def dataSource

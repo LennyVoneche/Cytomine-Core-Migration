@@ -30,10 +30,11 @@ import com.vividsolutions.jts.io.WKTReader
 import com.vividsolutions.jts.io.WKTWriter
 
 import static org.springframework.security.acls.domain.BasePermission.READ
+import grails.transaction.Transactional
 
+@Transactional
 class RoiAnnotationService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def transactionService
     def annotationTermService

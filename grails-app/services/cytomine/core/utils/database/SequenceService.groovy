@@ -21,11 +21,13 @@ import org.postgresql.util.PSQLException
 /**
  * Sequence service provide new id for domain
  */
+import grails.transaction.Transactional
+
+@Transactional
 class SequenceService {
 
     def sessionFactory
     public final static String SEQ_NAME = "hibernate_sequence"
-    static transactional = true
 
     /**
      * Create database sequence

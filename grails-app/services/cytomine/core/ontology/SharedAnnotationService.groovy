@@ -29,16 +29,16 @@ import cytomine.core.utils.JSONUtils
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
 import grails.converters.JSON
+import grails.transaction.Transactional
 import grails.util.Environment
 
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 
 import static org.springframework.security.acls.domain.BasePermission.*
-
+@Transactional
 class SharedAnnotationService extends ModelService {
 
-    static transactional = true
     def securityACLService
     def springSecurityService
     def secRoleService

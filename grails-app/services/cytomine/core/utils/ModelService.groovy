@@ -31,7 +31,6 @@ import grails.converters.JSON
 import org.springframework.util.ReflectionUtils
 import grails.util.GrailsNameUtils
 import org.springframework.transaction.annotation.Propagation
-import org.springframework.transaction.annotation.Transactional
 
 import java.lang.reflect.Field
 import java.sql.ResultSet
@@ -39,10 +38,11 @@ import java.sql.ResultSetMetaData
 import java.time.ZoneId
 
 import static org.springframework.security.acls.domain.BasePermission.READ
+import grails.transaction.Transactional
 
+@Transactional
 abstract class ModelService {
 
-    static transactional = true
 
     def responseService
     def commandService

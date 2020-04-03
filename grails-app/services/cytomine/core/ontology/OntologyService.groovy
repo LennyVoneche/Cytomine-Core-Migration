@@ -25,13 +25,13 @@ import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
 import grails.converters.JSON
+import grails.transaction.Transactional
 import org.springframework.security.acls.domain.BasePermission
 
 import static org.springframework.security.acls.domain.BasePermission.*
-
+@Transactional
 class OntologyService extends ModelService {
 
-    static transactional = true
     boolean saveOnUndoRedoStack = true
 
     def springSecurityService

@@ -22,14 +22,15 @@ import grails.util.Holders
 import groovy.sql.Sql
 
 import static org.springframework.security.acls.domain.BasePermission.READ
+import grails.transaction.Transactional
 
+@Transactional
 class TaskService  {
 
     def cytomineService
     def securityACLService
     def dataSource
 
-    static transactional = true
 
     def get(def id) {
         getFromDatabase(id)

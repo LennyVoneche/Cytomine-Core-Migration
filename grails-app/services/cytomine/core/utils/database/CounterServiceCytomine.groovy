@@ -17,13 +17,14 @@ package cytomine.core.utils.database
 */
 
 import groovy.sql.Sql
+import grails.transaction.Transactional
 
+@Transactional
 class CounterServiceCytomine {
 
     def sessionFactory
     def dataSource
     def grailsApplication
-    static transactional = true
 
     /**
      * Create domain index

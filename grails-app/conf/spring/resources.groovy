@@ -23,7 +23,6 @@ import cytomine.core.spring.CustomAjaxAwareAuthenticationEntryPoint
 import cytomine.core.spring.CustomDefaultRedirectStrategy
 import cytomine.core.spring.CustomSavedRequestAwareAuthenticationSuccessHandler
 import cytomine.core.web.CytomineMultipartHttpServletRequest
-import cytomine.web.APIAuthentificationFilters
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.web.authentication.AjaxAwareAuthenticationSuccessHandler
 import grails.util.Holders
@@ -34,9 +33,8 @@ import grails.plugin.springsecurity.SpringSecurityUtils
 // Place your Spring DSL code here
 beans = {
     println getClass().toString() + '001' + Holders.config.info.app.versionDate
-    LogoutEventListener
-
-    'apiAuthentificationFilter'(APIAuthentificationFilters) {
+    logoutEventListener(LogoutEventListener)
+    'apiAuthentificationFilter'(cytomine.web.APIAuthentificationFilters) {
         // properties
     }
 //    'multipartResolver'(CytomineMultipartHttpServletRequest) {
@@ -129,6 +127,8 @@ beans = {
             grailsApplication = ref('grailsApplication')
         }
     } else {
+
+        println getClass().toString() + '007  userDetailsService(SimpleUserDetailsService)'
         userDetailsService(SimpleUserDetailsService)
     }
     println getClass().toString() + '007'

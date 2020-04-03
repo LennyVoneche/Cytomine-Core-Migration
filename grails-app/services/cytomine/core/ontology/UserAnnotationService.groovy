@@ -56,7 +56,6 @@ import static org.springframework.security.acls.domain.BasePermission.READ
 @Transactional
 class UserAnnotationService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def transactionService
     def annotationTermService

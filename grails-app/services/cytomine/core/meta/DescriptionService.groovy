@@ -26,12 +26,12 @@ import cytomine.core.meta.Description
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
 import static org.springframework.security.acls.domain.BasePermission.READ
-
+@Transactional
 class DescriptionService extends ModelService {
 
-    static transactional = true
     def springSecurityService
     def transactionService
     def commandService

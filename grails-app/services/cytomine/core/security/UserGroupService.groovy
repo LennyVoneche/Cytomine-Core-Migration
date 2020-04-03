@@ -23,10 +23,11 @@ import cytomine.core.command.DeleteCommand
 import cytomine.core.command.Transaction
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
+@Transactional
 class UserGroupService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def commandService

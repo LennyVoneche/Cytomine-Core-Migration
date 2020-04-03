@@ -29,7 +29,7 @@ import java.awt.image.BufferedImage
 class RestController {
 
     def sessionFactory
-    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
+//    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
     def springSecurityService
 //    def grailsApplication
 

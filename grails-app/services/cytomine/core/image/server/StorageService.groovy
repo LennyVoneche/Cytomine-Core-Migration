@@ -22,10 +22,11 @@ import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
 import grails.converters.JSON
 import grails.plugin.springsecurity.SpringSecurityUtils
+import grails.transaction.Transactional
 import org.grails.web.json.JSONObject
 
 import static org.springframework.security.acls.domain.BasePermission.*
-
+@Transactional
 class StorageService extends ModelService {
 
     def cytomineService
@@ -35,7 +36,6 @@ class StorageService extends ModelService {
     def springSecurityService
     def currentRoleServiceProxy
 
-    static transactional = true
 
     def currentDomain() {
         return Storage

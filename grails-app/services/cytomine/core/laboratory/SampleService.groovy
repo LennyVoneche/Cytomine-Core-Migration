@@ -23,10 +23,11 @@ import cytomine.core.security.SecUser
 import cytomine.core.security.User
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
+@Transactional
 class SampleService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def abstractImageService

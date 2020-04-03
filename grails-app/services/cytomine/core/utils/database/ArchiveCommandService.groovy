@@ -98,12 +98,12 @@ class ArchiveCommandService {
     /**
      * Clean GORM cache
      */
-    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
+//    def propertyInstanceMap = org.codehaus.groovy.grails.plugins.DomainClassGrailsPlugin.PROPERTY_INSTANCE_MAP
     public void cleanUpGorm() {
         def session = sessionFactory.currentSession
         session.flush()
         session.clear()
-        propertyInstanceMap.get().clear()
+//        propertyInstanceMap.get().clear()
     }
 
     static Date getMonthBefore(Date date, int month) {

@@ -42,10 +42,11 @@ import org.grails.web.json.JSONObject
 import org.springframework.security.acls.domain.BasePermission
 
 import static org.springframework.security.acls.domain.BasePermission.*
+import grails.transaction.Transactional
 
+@Transactional
 class ProjectService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def modelService
     def springSecurityService

@@ -20,10 +20,11 @@ import cytomine.core.Exception.ConstraintException
 import cytomine.core.project.Project
 
 import static org.springframework.security.acls.domain.BasePermission.READ
+import grails.transaction.Transactional
 
+@Transactional
 class ProjectPermissionService {
 
-    static transactional = true
 
     def cytomineService
     def securityACLService

@@ -1,5 +1,7 @@
 package cytomine.core.security
 
+import cytomine.core.social.PersistentProjectConnection
+
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
 *
@@ -18,26 +20,39 @@ package cytomine.core.security
 
 import grails.plugin.springsecurity.userdetails.GormUserDetailsService
 import grails.plugin.springsecurity.userdetails.GrailsUser
+import grails.transaction.Transactional
+import org.grails.orm.hibernate.HibernateDatastore
 import org.springframework.dao.DataAccessException
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 
 class SimpleUserDetailsService extends GormUserDetailsService {
-
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username, boolean loadRoles) throws UsernameNotFoundException, DataAccessException {
+        SecUser user
+        //        TODO: (Migration)
+            println getClass().toString() + '001' + username
+            user = SecUser.findByUsernameIlike(username)
+            println getClass().toString() + '002'
+            def authorities = []
+            println getClass().toString() + '003'
+            def auth = SecUserSecRole.findAllBySecUser(user).collect { new SimpleGrantedAuthority(it.secRole.authority) }
+            println getClass().toString() + '004' + auth
 
-        SecUser user = SecUser.findByUsernameIlike(username)
-
-        def authorities = []
-
-        def auth = SecUserSecRole.findAllBySecUser(user).collect{new SimpleGrantedAuthority(it.secRole.authority)}
         //by default, we remove the role_admin for the current session
-        authorities.addAll(auth.findAll{it.authority!="ROLE_ADMIN"})
+            authorities.addAll(auth.findAll { it.authority != "ROLE_ADMIN" })
+            println getClass().toString() + '004' + user.username
+            println getClass().toString() + '004' + user.password
+            println getClass().toString() + '004' + user.enabled
+            println getClass().toString() + '004' + user.publicKey
+            println getClass().toString() + '004' + authorities
 
-        return new GrailsUser(user.username, user.password, user.enabled, !user.accountExpired,
-                !user.passwordExpired, !user.accountLocked,
-                authorities, user.id)
+
+            return new GrailsUser(user.username, user.password, user.enabled, !user.accountExpired,
+                    !user.passwordExpired, !user.accountLocked,
+                    authorities, user.id)
+
     }
 }

@@ -1,5 +1,7 @@
 package cytomine.core.command
 
+import grails.transaction.Transactional
+
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
 *
@@ -19,9 +21,10 @@ package cytomine.core.command
 /**
  * Start/Stop transaction (group of command request)
  */
+//TODO: (Migration)
+@Transactional
 class TransactionService {
     def springSecurityService
-    static transactional = true
 
     /**
      * Start a transaction and return it

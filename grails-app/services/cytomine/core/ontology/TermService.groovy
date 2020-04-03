@@ -32,7 +32,6 @@ import static org.springframework.security.acls.domain.BasePermission.*
 @Transactional
 class TermService extends ModelService {
 
-    static transactional = true
 //    def springSecurityService
 //    def transactionService
     def commandService

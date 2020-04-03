@@ -22,9 +22,11 @@ import org.postgresql.util.PSQLException
 /**
  * Service used to create index at the application bootstrap
  */
+import grails.transaction.Transactional
+
+@Transactional
 class IndexService {
 
-    static transactional = true
 
     def sessionFactory
     def grailsApplication

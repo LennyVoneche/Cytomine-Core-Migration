@@ -49,10 +49,11 @@ import org.springframework.util.ReflectionUtils
 import static org.springframework.security.acls.domain.BasePermission.ADMINISTRATION
 import static org.springframework.security.acls.domain.BasePermission.READ
 import static org.springframework.security.acls.domain.BasePermission.WRITE
+import grails.transaction.Transactional
 
+@Transactional
 class SecUserService extends ModelService {
 
-    static transactional = true
 
 //    def springSecurityService
 //    def transactionService

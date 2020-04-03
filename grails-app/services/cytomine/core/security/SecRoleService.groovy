@@ -15,10 +15,11 @@ package cytomine.core.security
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+import grails.transaction.Transactional
 
+@Transactional
 class SecRoleService {
 
-    static transactional = true
     def cytomineService
     def securityACLService
 

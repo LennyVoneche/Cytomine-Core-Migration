@@ -26,6 +26,7 @@ import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.context.SecurityContextHolder as SCH
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
+import grails.transaction.Transactional
 import org.springframework.web.context.request.RequestContextHolder
 
 import javax.servlet.http.HttpServletResponse
@@ -82,6 +83,8 @@ class LoginController extends RestController {
      * Show the login page.
      */
     def auth () {
+        println getClass().toString() + '001 '
+
         def config = SpringSecurityUtils.securityConfig
 
         println "auth:$config"
@@ -111,6 +114,8 @@ class LoginController extends RestController {
      * Login page for users with a remember-me cookie but accessing a IS_AUTHENTICATED_FULLY page.
      */
     def full () {
+        println getClass().toString() + '001 '
+
         def config = SpringSecurityUtils.securityConfig
         render view: 'auth', params: params,
                 model: [hasCookie: authenticationTrustResolver.isRememberMe(SCH.context?.authentication),
@@ -125,8 +130,10 @@ class LoginController extends RestController {
 
         log.info "springSecurityService.isLoggedIn()="+springSecurityService.isLoggedIn()
         def msg = ''
-        Throwable exception = session[AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY]
-        if(exception.getCause()) exception = exception.getCause()
+//        TODO: (Migration)
+//        Throwable exception = session[AbstractAuthenticationProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY]
+        Throwable exception = session[org.springframework.security.web.WebAttributes.AUTHENTICATION_EXCEPTION]
+//        if(exception.getCause()) exception = exception.getCause()
 
         if (exception) {
             //:todo put error messages in i18n
@@ -232,6 +239,8 @@ class LoginController extends RestController {
     }
 
     def buildToken() {
+        println getClass().toString() + '001 '
+
         String username = params.username
         Double validityMin = params.double('validity',60d)
         User user = User.findByUsername(username)

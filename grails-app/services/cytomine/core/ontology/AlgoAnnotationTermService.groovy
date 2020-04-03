@@ -31,12 +31,12 @@ import cytomine.core.security.UserJob
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
 import grails.converters.JSON
+import grails.transaction.Transactional
 
 import static org.springframework.security.acls.domain.BasePermission.READ
-
+@Transactional
 class AlgoAnnotationTermService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def commandService
     def securityACLService

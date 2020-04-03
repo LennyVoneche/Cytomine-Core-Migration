@@ -197,39 +197,39 @@ grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 //        [pattern: '/status/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']]
 //]
 
-//TODO: (Migration)
-//grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
-//grails.plugin.springsecurity.interceptUrlMap = [
-//        '/admin/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-//        '/admincyto/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-//        '/monitoring/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-//        '/j_spring_security_switch_user': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-//        '/securityInfo/**': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-//        '/api/**':      ['IS_AUTHENTICATED_REMEMBERED'],
-//        '/lib/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
-//        '/css/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
-//        '/images/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
-//        '/*':           ['IS_AUTHENTICATED_REMEMBERED'], //if cas authentication, active this
-//        '/login/**':    ['IS_AUTHENTICATED_ANONYMOUSLY'],
-//        '/logout/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
-//        '/status/**':   ['IS_AUTHENTICATED_ANONYMOUSLY']
-//]
-
+TODO: (Migration)
+grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 grails.plugin.springsecurity.interceptUrlMap = [
-        [pattern: '/admin/**',               		access: ['permitAll']],
-        [pattern: '/admincyto/**',          		access: ['permitAll']],
-        [pattern: '/monitoring/**',          		access: ['permitAll']],
-        [pattern: '/j_spring_security_switch_user', access: ['permitAll']],
-        [pattern: '/securityInfo/**',      			access: ['permitAll']],
-        [pattern: '/api/**',       					access: ['permitAll']],
-        [pattern: '/lib/**',     					access: ['permitAll']],
-        [pattern: '/css/**',       					access: ['permitAll']],
-        [pattern: '/images/**',      				access: ['permitAll']],
-        [pattern: '/*',   							access: ['permitAll']],
-        [pattern: '/login/**',						access: ['permitAll']],
-        [pattern: '/logout/**', 					access: ['permitAll']],
-        [pattern: '/status/**', 					access: ['permitAll']]
+        '/admin/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+        '/admincyto/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+        '/monitoring/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+        '/j_spring_security_switch_user': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+        '/securityInfo/**': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+        '/api/**':      ['IS_AUTHENTICATED_REMEMBERED'],
+        '/lib/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/css/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/images/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/*':           ['IS_AUTHENTICATED_REMEMBERED'], //if cas authentication, active this
+        '/login/**':    ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/logout/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
+        '/status/**':   ['IS_AUTHENTICATED_ANONYMOUSLY']
 ]
+
+//grails.plugin.springsecurity.interceptUrlMap = [
+//        [pattern: '/admin/**',               		access: ['permitAll']],
+//        [pattern: '/admincyto/**',          		access: ['permitAll']],
+//        [pattern: '/monitoring/**',          		access: ['permitAll']],
+//        [pattern: '/j_spring_security_switch_user', access: ['permitAll']],
+//        [pattern: '/securityInfo/**',      			access: ['permitAll']],
+//        [pattern: '/api/**',       					access: ['permitAll']],
+//        [pattern: '/lib/**',     					access: ['permitAll']],
+//        [pattern: '/css/**',       					access: ['permitAll']],
+//        [pattern: '/images/**',      				access: ['permitAll']],
+//        [pattern: '/*',   							access: ['permitAll']],
+//        [pattern: '/login/**',						access: ['permitAll']],
+//        [pattern: '/logout/**', 					access: ['permitAll']],
+//        [pattern: '/status/**', 					access: ['permitAll']]
+//]
 /******************************************************************************
  * CAS config
  ******************************************************************************/
@@ -631,13 +631,13 @@ hibernate {
 }
 // environment specific settings
 environments {
-    scratch {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:postgresql://localhost:5432/cytomineempty"
-            password = "postgres"
-        }
-    }
+//    scratch {
+//        dataSource {
+//            dbCreate = "update"
+//            url = "jdbc:postgresql://localhost:5432/cytomineempty"
+//            password = "postgres"
+//        }
+//    }
     development {
         dataSource {
             dbCreate = "update"
@@ -646,39 +646,39 @@ environments {
             password = "docker"
         }
     }
-    test {
-        dataSource {
-            //loggingSql = true
-            dbCreate = "create"
-            url = "jdbc:postgresql://localhost:5432/docker"
-            username = "docker"
-            password = "docker"
-        }
-    }
-    production {
-        dataSource {
-            dbCreate = "update"
-            url = "jdbc:postgresql://postgresql:5432/docker"
-            username='docker'
-            password='docker'
-        }
-    }
-    perf {
-        dataSource {
-            //loggingSql = true
-            dbCreate = "update"
-            url = "jdbc:postgresql://localhost:5433/cytomineperf"
-            password = "postgres"
-        }
-    }
-    testrun {
-        dataSource {
-            //loggingSql = true
-            dbCreate = "create"
-            url = "jdbc:postgresql://localhost:5432/cytominetestrun"
-            password = "postgres"
-        }
-    }
+//    test {
+//        dataSource {
+//            //loggingSql = true
+//            dbCreate = "create"
+//            url = "jdbc:postgresql://localhost:5432/docker"
+//            username = "docker"
+//            password = "docker"
+//        }
+//    }
+//    production {
+//        dataSource {
+//            dbCreate = "update"
+//            url = "jdbc:postgresql://postgresql:5432/docker"
+//            username='docker'
+//            password='docker'
+//        }
+//    }
+//    perf {
+//        dataSource {
+//            //loggingSql = true
+//            dbCreate = "update"
+//            url = "jdbc:postgresql://localhost:5433/cytomineperf"
+//            password = "postgres"
+//        }
+//    }
+//    testrun {
+//        dataSource {
+//            //loggingSql = true
+//            dbCreate = "create"
+//            url = "jdbc:postgresql://localhost:5432/cytominetestrun"
+//            password = "postgres"
+//        }
+//    }
 }
 grails {
     mongo {

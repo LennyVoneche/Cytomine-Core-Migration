@@ -30,12 +30,14 @@ import groovy.sql.Sql
  * project has properties countUserAnnotation, countImages,...
  * A trigger automaticaly incr (or decr) these values.
  */
+import grails.transaction.Transactional
+
+@Transactional
 class TriggerService {
 
     def sessionFactory
     def grailsApplication
     public final static String SEQ_NAME = "CYTOMINE_SEQ"
-    static transactional = true
     def dataSource
 
     def initTrigger() {

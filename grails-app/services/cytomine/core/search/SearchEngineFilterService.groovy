@@ -34,7 +34,6 @@ import grails.transaction.Transactional
 @Transactional
 class SearchEngineFilterService extends ModelService {
 
-    static transactional = true
     boolean saveOnUndoRedoStack = true
 
     def springSecurityService

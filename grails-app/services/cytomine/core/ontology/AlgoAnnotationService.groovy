@@ -43,7 +43,6 @@ import static org.springframework.security.acls.domain.BasePermission.READ
 @Transactional
 class AlgoAnnotationService extends ModelService {
 
-    static transactional = true
     def propertyService
 
     def cytomineService

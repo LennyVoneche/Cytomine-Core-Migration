@@ -39,10 +39,11 @@ import org.springframework.util.ReflectionUtils
 import java.text.SimpleDateFormat
 
 import static org.springframework.security.acls.domain.BasePermission.READ
+import grails.transaction.Transactional
 
+@Transactional
 class JobService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def modelService
     def transactionService

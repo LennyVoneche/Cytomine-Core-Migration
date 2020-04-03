@@ -18,11 +18,11 @@ package cytomine.core.ontology
 
 import cytomine.core.image.SliceInstance
 import cytomine.core.security.SecUser
+import grails.transaction.Transactional
 import groovy.sql.Sql
-
+@Transactional
 class AnnotationIndexService {
 
-    static transactional = true
     def dataSource
 
     def list(SliceInstance slice) {

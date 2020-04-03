@@ -9,14 +9,14 @@ import cytomine.core.command.Transaction
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 import groovy.sql.Sql
 
 import static org.springframework.security.acls.domain.BasePermission.READ
 import static org.springframework.security.acls.domain.BasePermission.WRITE
-
+@Transactional
 class SampleHistogramService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def securityACLService

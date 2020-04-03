@@ -12,6 +12,7 @@ import cytomine.core.project.Project
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
 import static org.springframework.security.acls.domain.BasePermission.READ
 
@@ -30,10 +31,9 @@ import static org.springframework.security.acls.domain.BasePermission.READ
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-
+@Transactional
 class TrackService extends ModelService {
 
-    static transactional = true
 
     def securityACLService
     def imageInstanceService

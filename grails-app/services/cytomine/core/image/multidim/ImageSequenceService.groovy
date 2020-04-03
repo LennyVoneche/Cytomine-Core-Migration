@@ -22,15 +22,15 @@ import cytomine.core.image.ImageInstance
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 import static org.springframework.security.acls.domain.BasePermission.READ
-
+@Transactional
 class ImageSequenceService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def transactionService

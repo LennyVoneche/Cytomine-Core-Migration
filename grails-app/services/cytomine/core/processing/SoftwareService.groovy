@@ -28,10 +28,11 @@ import groovy.json.JsonBuilder
 import org.springframework.security.acls.domain.BasePermission
 
 import static org.springframework.security.acls.domain.BasePermission.*
+import grails.transaction.Transactional
 
+@Transactional
 class SoftwareService extends ModelService {
 
-    static transactional = true
 
     boolean saveOnUndoRedoStack = false
 

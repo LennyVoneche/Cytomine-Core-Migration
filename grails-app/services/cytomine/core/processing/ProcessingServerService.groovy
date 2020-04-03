@@ -28,10 +28,11 @@ import groovy.json.JsonBuilder
 import org.springframework.security.acls.domain.BasePermission
 
 import static org.springframework.security.acls.domain.BasePermission.WRITE
+import grails.transaction.Transactional
 
+@Transactional
 class ProcessingServerService extends ModelService {
 
-    static transactional = true
 
     def transactionService
     def securityACLService

@@ -24,10 +24,11 @@ import cytomine.core.utils.Task
 import grails.util.GrailsUtil
 
 import static org.springframework.security.acls.domain.BasePermission.READ
+import grails.transaction.Transactional
 
+@Transactional
 class JobDataService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def commandService

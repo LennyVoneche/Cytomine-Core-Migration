@@ -20,14 +20,15 @@ import cytomine.core.command.Transaction
 import cytomine.core.project.Project
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
 //import cytomine.core.Exception.CytomineMethodNotYetImplementedException
 /**
  * No security restriction for this domain (only read)
  */
+@Transactional
 class RelationService extends ModelService {
 
-    static transactional = true
 
     def list() {
         Relation.list()

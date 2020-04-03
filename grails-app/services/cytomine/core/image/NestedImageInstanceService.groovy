@@ -22,6 +22,7 @@ import cytomine.core.project.Project
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 import org.hibernate.FetchMode
 
 import static org.springframework.security.acls.domain.BasePermission.READ
@@ -29,9 +30,9 @@ import static org.springframework.security.acls.domain.BasePermission.READ
 /**
  * TODO:: refactor + doc!!!!!!!
  */
+@Transactional
 class NestedImageInstanceService extends ModelService {
 
-    static transactional = true
 
      def cytomineService
      def transactionService

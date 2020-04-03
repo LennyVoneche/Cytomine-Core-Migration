@@ -14,18 +14,18 @@ import cytomine.core.utils.ModelService
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.io.WKTReader
 import grails.converters.JSON
+import grails.transaction.Transactional
 import groovyx.net.http.ContentType
 import groovyx.net.http.HTTPBuilder
 import org.apache.http.HttpEntity
 import org.apache.http.util.EntityUtils
-
+@Transactional
 class ImageServerService extends ModelService {
     /* TODO: delete dependent objects - do we want to allow this ?
         - uploadedFile
         - mimeImageServer
      */
 
-    static transactional = true
 
     def cytomineService
     def securityACLService

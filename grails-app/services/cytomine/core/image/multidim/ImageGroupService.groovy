@@ -21,12 +21,12 @@ import cytomine.core.project.Project
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
 import static org.springframework.security.acls.domain.BasePermission.READ
-
+@Transactional
 class ImageGroupService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def transactionService

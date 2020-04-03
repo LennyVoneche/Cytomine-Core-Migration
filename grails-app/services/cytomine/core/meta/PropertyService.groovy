@@ -27,15 +27,15 @@ import cytomine.core.utils.JSONUtils
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
 import com.vividsolutions.jts.geom.Geometry
+import grails.transaction.Transactional
 import groovy.sql.Sql
 import grails.converters.JSON
 
 import static org.springframework.security.acls.domain.BasePermission.READ
 import static org.springframework.security.acls.domain.BasePermission.WRITE
-
+@Transactional
 class PropertyService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def transactionService
     def dataSource

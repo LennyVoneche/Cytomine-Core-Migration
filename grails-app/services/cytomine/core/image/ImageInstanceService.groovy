@@ -39,6 +39,7 @@ import cytomine.core.utils.JSONUtils
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
 import grails.converters.JSON
+import grails.transaction.Transactional
 import groovy.sql.GroovyResultSet
 import groovy.sql.Sql
 import org.hibernate.FetchMode
@@ -46,10 +47,8 @@ import org.hibernate.FetchMode
 import org.springframework.util.ReflectionUtils
 
 import static org.springframework.security.acls.domain.BasePermission.READ
-
+@Transactional
 class ImageInstanceService extends ModelService {
-
-    static transactional = true
 
     def cytomineService
     def transactionService

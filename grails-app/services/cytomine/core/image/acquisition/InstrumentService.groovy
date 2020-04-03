@@ -17,10 +17,11 @@ package cytomine.core.image.acquisition
 */
 
 import cytomine.core.utils.ModelService
+import grails.transaction.Transactional
 
+@Transactional
 class InstrumentService extends ModelService {
 
-    static transactional = true
     def cytomineService
 
     //TODO: move here code for INSTRUMENT CRUD

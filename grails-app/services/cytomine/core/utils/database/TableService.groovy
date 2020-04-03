@@ -25,13 +25,15 @@ import groovy.sql.Sql
  * Time: 15:16
  * Service used to create index at the application begining
  */
+import grails.transaction.Transactional
+
+@Transactional
 class TableService {
 
     def sessionFactory
     def dataSource
     def grailsApplication
     public final static String SEQ_NAME = "CYTOMINE_SEQ"
-    static transactional = true
 
     /**
      * Create domain index

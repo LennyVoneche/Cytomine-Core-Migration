@@ -23,11 +23,13 @@ package cytomine.core.utils.database
  * Time: 15:16
  * To change this template use File | Settings | File Templates.
  */
+import grails.transaction.Transactional
+
+@Transactional
 class GrantService {
 
     def sessionFactory
     def grailsApplication
-    static transactional = true
 
     def initGrant() {
         sessionFactory.getCurrentSession().clear();

@@ -17,10 +17,11 @@ package cytomine.core.processing
 */
 
 import cytomine.core.utils.ModelService
+import grails.transaction.Transactional
 
+@Transactional
 class JobDataBinaryValueService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def commandService
     def modelService

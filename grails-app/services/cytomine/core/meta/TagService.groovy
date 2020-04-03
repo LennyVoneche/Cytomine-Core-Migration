@@ -19,10 +19,11 @@ import cytomine.core.command.*
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
+@Transactional
 class TagService extends ModelService {
 
-    static transactional = true
     def springSecurityService
     def transactionService
     def commandService

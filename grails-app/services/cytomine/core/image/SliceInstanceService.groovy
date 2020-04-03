@@ -12,6 +12,7 @@ import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.SQLUtils
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 import groovy.sql.Sql
 import org.hibernate.FetchMode
 
@@ -19,10 +20,9 @@ import java.nio.file.Paths
 
 import static org.springframework.security.acls.domain.BasePermission.READ
 import static org.springframework.security.acls.domain.BasePermission.WRITE
-
+@Transactional
 class SliceInstanceService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def securityACLService

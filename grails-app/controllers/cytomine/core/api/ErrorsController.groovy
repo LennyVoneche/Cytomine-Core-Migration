@@ -34,9 +34,12 @@ class ErrorsController extends RestController {
             errors(message: "Resource not found!")
         }
     }
-
+//    TODO: (Migration)
     def error500 = {
-        render view: '/errors/error'
+        response.status = 500
+        render(contentType: 'text/json') {
+            errors(message: "(Migration) Erreur 500")
+        }
     }
 
 }

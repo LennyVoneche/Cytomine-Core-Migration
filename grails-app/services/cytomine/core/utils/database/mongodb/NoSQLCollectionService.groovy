@@ -23,11 +23,13 @@ package cytomine.core.utils.database.mongodb
  * Time: 15:16
  * Service used to create index at the application begining
  */
+import grails.transaction.Transactional
+
+@Transactional
 class NoSQLCollectionService {
 
     def sessionFactory
     def grailsApplication
-    static transactional = true
     def mongo
 
     static String databaseName = "cytomine"

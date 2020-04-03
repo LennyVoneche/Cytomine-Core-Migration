@@ -23,10 +23,11 @@ import cytomine.core.meta.AttachedFile
 import cytomine.core.security.SecUser
 import cytomine.core.utils.ModelService
 import cytomine.core.utils.Task
+import grails.transaction.Transactional
 
+@Transactional
 class AttachedFileService extends ModelService {
 
-    static transactional = true
     def transactionService
     def commandService
     def cytomineService

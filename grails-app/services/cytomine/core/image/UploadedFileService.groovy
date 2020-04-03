@@ -33,14 +33,14 @@ import cytomine.core.utils.ModelService
 import cytomine.core.utils.SQLUtils
 import cytomine.core.utils.Task
 import grails.converters.JSON
+import grails.transaction.Transactional
 import groovy.sql.Sql
 
 import static org.springframework.security.acls.domain.BasePermission.READ
 import static org.springframework.security.acls.domain.BasePermission.WRITE
-
+@Transactional
 class UploadedFileService extends ModelService {
 
-    static transactional = true
 
     def cytomineService
     def abstractImageService

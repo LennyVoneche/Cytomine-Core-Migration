@@ -24,10 +24,11 @@ import grails.converters.JSON
 import groovy.sql.Sql
 import org.grails.web.json.JSONArray
 import org.grails.web.json.JSONObject
+import grails.transaction.Transactional
 
+@Transactional
 class GroupService extends ModelService {
 
-    static transactional = true
     def cytomineService
     def commandService
     def userGroupService
