@@ -181,39 +181,39 @@ grails.plugin.springsecurity.apf.passwordParameter = 'j_password'
 
 
 grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
-//grails.plugin.springsecurity.interceptUrlMap = [
-//        [pattern: '/admin/**',               		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//        [pattern: '/admincyto/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//        [pattern: '/monitoring/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//        [pattern: '/j_spring_security_switch_user', access:['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//        [pattern: '/securityInfo/**',      			access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
-//        [pattern: '/api/**',       					access: ['IS_AUTHENTICATED_REMEMBERED']],
-//        [pattern: '/lib/**',     					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//        [pattern: '/css/**',       					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//        [pattern: '/images/**',      				access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//        [pattern: '/*',   							access: ['permitAll']],
-//        [pattern: '/login/**',						access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//        [pattern: '/logout/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
-//        [pattern: '/status/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']]
-//]
-
-TODO: (Migration)
-grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
 grails.plugin.springsecurity.interceptUrlMap = [
-        '/admin/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-        '/admincyto/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-        '/monitoring/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-        '/j_spring_security_switch_user': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-        '/securityInfo/**': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
-        '/api/**':      ['IS_AUTHENTICATED_REMEMBERED'],
-        '/lib/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
-        '/css/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
-        '/images/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
-        '/*':           ['IS_AUTHENTICATED_REMEMBERED'], //if cas authentication, active this
-        '/login/**':    ['IS_AUTHENTICATED_ANONYMOUSLY'],
-        '/logout/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
-        '/status/**':   ['IS_AUTHENTICATED_ANONYMOUSLY']
+        [pattern: '/admin/**',               		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+        [pattern: '/admincyto/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+        [pattern: '/monitoring/**',          		access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+        [pattern: '/j_spring_security_switch_user', access:['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+        [pattern: '/securityInfo/**',      			access: ['ROLE_ADMIN','ROLE_SUPER_ADMIN']],
+        [pattern: '/api/**',       					access: ['IS_AUTHENTICATED_REMEMBERED']],
+        [pattern: '/lib/**',     					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+        [pattern: '/css/**',       					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+        [pattern: '/images/**',      				access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+        [pattern: '/*',   							access: ['permitAll']],
+        [pattern: '/login/**',						access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+        [pattern: '/logout/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']],
+        [pattern: '/status/**', 					access: ['IS_AUTHENTICATED_ANONYMOUSLY']]
 ]
+
+//TODO: (Migration)
+//grails.plugin.springsecurity.securityConfigType = "InterceptUrlMap"
+//grails.plugin.springsecurity.interceptUrlMap = [
+//        '/admin/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/admincyto/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/monitoring/**':    ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/j_spring_security_switch_user': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/securityInfo/**': ['ROLE_ADMIN','ROLE_SUPER_ADMIN'],
+//        '/api/**':      ['IS_AUTHENTICATED_REMEMBERED'],
+//        '/lib/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/css/**':      ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/images/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/*':           ['IS_AUTHENTICATED_REMEMBERED'], //if cas authentication, active this
+//        '/login/**':    ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/logout/**':   ['IS_AUTHENTICATED_ANONYMOUSLY'],
+//        '/status/**':   ['IS_AUTHENTICATED_ANONYMOUSLY']
+//]
 
 //grails.plugin.springsecurity.interceptUrlMap = [
 //        [pattern: '/admin/**',               		access: ['permitAll']],
