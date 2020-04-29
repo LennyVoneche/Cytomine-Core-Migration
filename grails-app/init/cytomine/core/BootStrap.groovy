@@ -66,6 +66,7 @@ class BootStrap {
 
     def init = { servletContext ->
 //        //Register API Authentifier
+        log.info 'Bootstrap.init'
         SpringSecurityUtils.clientRegisterFilter( 'apiAuthentificationFilter', SecurityFilterPosition.DIGEST_AUTH_FILTER.order + 1)
 
         log.info "#############################################################################"

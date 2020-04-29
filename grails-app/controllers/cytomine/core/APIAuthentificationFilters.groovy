@@ -1,4 +1,4 @@
-package cytomine.web
+package cytomine.core
 
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
@@ -23,13 +23,14 @@ import cytomine.core.utils.SecurityUtils
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.transaction.Transactional
 
+import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.FilterConfig
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletResponse
 @Transactional
-class APIAuthentificationFilters implements javax.servlet.Filter {
+class APIAuthentificationFilters implements Filter {
 
 
     void init(FilterConfig filterConfig) {
@@ -56,7 +57,6 @@ class APIAuthentificationFilters implements javax.servlet.Filter {
     /**
      * http://code.google.com/apis/storage/docs/reference/v1/developer-guidev1.html#authentication
      */
-    @Transactional
      boolean tryAPIAuthentification(def request, def response) {
         println getClass().toString() + '001 ' + request.getHeader("date")
         println getClass().toString() + '002 ' + request.getHeader("host")

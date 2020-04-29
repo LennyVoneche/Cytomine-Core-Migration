@@ -22,19 +22,19 @@ import cytomine.core.security.SimpleUserDetailsService
 import cytomine.core.spring.CustomAjaxAwareAuthenticationEntryPoint
 import cytomine.core.spring.CustomDefaultRedirectStrategy
 import cytomine.core.spring.CustomSavedRequestAwareAuthenticationSuccessHandler
-import cytomine.core.web.CytomineMultipartHttpServletRequest
-import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.web.authentication.AjaxAwareAuthenticationSuccessHandler
 import grails.util.Holders
 import org.springframework.cache.ehcache.EhCacheFactoryBean
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler
 
 import grails.plugin.springsecurity.SpringSecurityUtils
+import cytomine.core.APIAuthentificationFilters
+
 // Place your Spring DSL code here
 beans = {
     println getClass().toString() + '001' + Holders.config.info.app.versionDate
     logoutEventListener(LogoutEventListener)
-    'apiAuthentificationFilter'(cytomine.web.APIAuthentificationFilters) {
+    'apiAuthentificationFilter'(APIAuthentificationFilters) {
         // properties
     }
 //    'multipartResolver'(CytomineMultipartHttpServletRequest) {
