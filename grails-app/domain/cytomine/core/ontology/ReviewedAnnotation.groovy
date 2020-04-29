@@ -27,7 +27,7 @@ import cytomine.core.security.SecUser
 import cytomine.core.utils.JSONUtils
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.io.WKTReader
-import org.hibernate.spatial.GeometryType
+//import org.hibernate.spatial.GeometryType
 
 //import org.restapidoc.annotation.RestApiObject
 //import org.restapidoc.annotation.RestApiObjectField
@@ -84,7 +84,7 @@ class ReviewedAnnotation extends AnnotationDomain implements Serializable {
     static mapping = {
         id generator: "assigned"
         columns {
-            location type: GeometryType
+//            location type: GeometryType
         }
         terms fetch: 'join'
         wktLocation(type: 'text')

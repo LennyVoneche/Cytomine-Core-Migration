@@ -28,8 +28,7 @@ import org.springframework.cache.ehcache.EhCacheFactoryBean
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler
 
 import grails.plugin.springsecurity.SpringSecurityUtils
-import cytomine.core.APIAuthentificationFilters
-
+import cytomine.web.APIAuthentificationFilters
 // Place your Spring DSL code here
 beans = {
     println getClass().toString() + '001' + Holders.config.info.app.versionDate

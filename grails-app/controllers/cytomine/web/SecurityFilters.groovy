@@ -1,4 +1,4 @@
-package cytomine.core
+package cytomine.web
 
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.

@@ -1,4 +1,4 @@
-package cytomine.core
+package cytomine.web
 
 /*
 * Copyright (c) 2009-2019. Authors: see NOTICE file.
@@ -43,7 +43,7 @@ class RequestFilters {
                 request.currentTime = System.currentTimeMillis()
                 String userInfo = ""
                 try { userInfo = springSecurityService.principal.id} catch(MissingPropertyException e) { userInfo = springSecurityService.principal}
-                log.info controllerName+"."+actionName + ": user:" + userInfo
+                RequestFilters.log.info controllerName+"."+actionName + ": user:" + userInfo
             }
             after = {}
             afterView = {
@@ -55,7 +55,7 @@ class RequestFilters {
                 if(controllerName.equals("restUserPosition") && actionName.equals("add")) return
                 if(controllerName.equals("restAnnotationIndex") && actionName.equals("listBySlice")) return
 
-                log.info controllerName+"."+actionName + " Request took ${System.currentTimeMillis()-request.currentTime}ms"
+                RequestFilters.log.info controllerName+"."+actionName + " Request took ${System.currentTimeMillis()-request.currentTime}ms"
             }
         }
     }

@@ -27,7 +27,7 @@ import cytomine.core.security.User
 import cytomine.core.utils.JSONUtils
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.io.WKTReader
-import org.hibernate.spatial.GeometryType
+//import org.hibernate.spatial.GeometryType
 //import org.restapidoc.annotation.RestApiObject
 //import org.restapidoc.annotation.RestApiObjectField
 //import org.restapidoc.annotation.RestApiObjectFields
@@ -57,7 +57,7 @@ class UserAnnotation extends AnnotationDomain implements Serializable {
     static mapping = {
         id generator: "assigned"
         columns {
-            location type: GeometryType
+//            location type: GeometryType
         }
         wktLocation(type: 'text')
         sort "id"
