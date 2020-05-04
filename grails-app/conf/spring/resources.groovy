@@ -28,14 +28,15 @@ import org.springframework.cache.ehcache.EhCacheFactoryBean
 import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler
 
 import grails.plugin.springsecurity.SpringSecurityUtils
-import cytomine.web.APIAuthentificationFilters
+//import cytomine.web.APIAuthentificationFilters
+import cytomine.web.LoginInterceptor
 // Place your Spring DSL code here
 beans = {
     println getClass().toString() + '001' + Holders.config.info.app.versionDate
     logoutEventListener(LogoutEventListener)
-    'apiAuthentificationFilter'(APIAuthentificationFilters) {
-        // properties
-    }
+//    'apiAuthentificationFilter'(LoginInterceptor) {
+//         properties
+//    }
 //    'multipartResolver'(CytomineMultipartHttpServletRequest) {
 //        // Max in memory 100kbytes
 //        maxInMemorySize=10240
